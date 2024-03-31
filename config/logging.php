@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -57,7 +58,7 @@ return [
       'channels' => ['single'],
       'ignore_exceptions' => false,
     ],
-  
+
     'db' => [
       'driver' => 'single',
       'path' => storage_path('logs/db.log'),
