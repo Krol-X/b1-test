@@ -9,5 +9,11 @@
 </script>
 
 <div>
-  <h1>Hello {user}!</h1>
+  <h1 class="some">Hello {user}!</h1>
 </div>
+
+<style lang="scss">
+  .some {
+    @apply font-bold;
+  }
+</style>
