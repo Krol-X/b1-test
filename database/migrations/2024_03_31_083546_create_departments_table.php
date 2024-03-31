@@ -9,10 +9,14 @@ return new class extends Migration {
   /**
    * Run the migrations.
    */
-  public function up(): void {
+  public function up(): void
+  {
     Schema::create('departments', function (Blueprint $table) {
       $table->id();
-      $table->foreignIdFor(Department::class, 'parent_id')->nullable()->constrained('departments');
+      $table
+        ->foreignIdFor(Department::class, 'parent_id')
+        ->nullable()
+        ->constrained('departments');
       $table->string('name');
       $table->softDeletes();
       $table->timestamps();
@@ -22,7 +26,8 @@ return new class extends Migration {
   /**
    * Reverse the migrations.
    */
-  public function down(): void {
+  public function down(): void
+  {
     Schema::dropIfExists('departments');
   }
 };

@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import path from 'path'
 
-const projectRootDir = path.resolve(__dirname);
+const projectRootDir = path.resolve(__dirname)
 
 export default defineConfig({
   server: {
@@ -22,10 +22,10 @@ export default defineConfig({
       '@': path.resolve(projectRootDir, 'resources/js')
     }
   },
-  'build': {
-    'target': 'ES2022',
-    'outDir': 'dist'
+  build: {
+    target: 'ES2022',
+    outDir: 'dist'
   },
-  'root': './',
-  'publicDir': 'public'
+  root: './',
+  publicDir: 'public'
 })

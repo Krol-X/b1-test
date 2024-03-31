@@ -4,15 +4,21 @@
   "scripts": {
     "dev": "vite",
     "develop": "php artisan serve & vite",
-    "build": "vite build"
+    "build": "vite build",
+    "format": "prettier --write ./**/*.{php,js,json,svelte}",
+    "format:watch": "onchange \"resources/**/*.{php,js,json,svelte}\" -- prettier --write {{changed}}"
   },
   "devDependencies": {
+    "@prettier/plugin-php": "^0.22.2",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.4",
     "laravel-vite-plugin": "^1.0.0",
+    "onchange": "^7.1.0",
     "postcss": "^8.4.38",
     "postcss-scss": "^4.0.9",
+    "prettier": "^3.2.5",
+    "prettier-plugin-svelte": "^3.2.2",
     "sass": "^1.72.0",
     "tailwindcss": "^3.4.3",
     "vite": "^5.0.0"

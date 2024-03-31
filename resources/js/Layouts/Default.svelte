@@ -3,7 +3,7 @@
 </script>
 
 <h1>Default layout</h1>
-<Menu/>
+<Menu />
 <div>
-  <slot/>
+  <slot />
 </div>

@@ -7,7 +7,6 @@ use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
 
 return [
-
   /*
   |--------------------------------------------------------------------------
   | Default Log Channel
@@ -65,7 +64,7 @@ return [
       'formatter' => LineFormatter::class,
       'formatter_with' => [
         'format' => '[%datetime%] %message% %context%\n',
-        'dateFormat' => 'Y-m-d H:i:s'
+        'dateFormat' => 'Y-m-d H:i:s',
       ],
     ],
 
@@ -138,5 +137,4 @@ return [
       'path' => storage_path('logs/laravel.log'),
     ],
   ],
-
 ];

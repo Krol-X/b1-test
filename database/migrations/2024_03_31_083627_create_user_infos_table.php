@@ -9,10 +9,14 @@ return new class extends Migration {
   /**
    * Run the migrations.
    */
-  public function up(): void {
+  public function up(): void
+  {
     Schema::create('user_infos', function (Blueprint $table) {
       $table->id();
-      $table->foreignIdFor(Department::class)->nullable()->constrained();
+      $table
+        ->foreignIdFor(Department::class)
+        ->nullable()
+        ->constrained();
       $table->string('last_name');
       $table->string('name');
       $table->string('second_name');
@@ -29,7 +33,8 @@ return new class extends Migration {
   /**
    * Reverse the migrations.
    */
-  public function down(): void {
+  public function down(): void
+  {
     Schema::dropIfExists('user_infos');
   }
 };

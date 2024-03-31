@@ -1,8 +1,8 @@
 <script context="module">
-  import {writable} from 'svelte/store'
+  import { writable } from 'svelte/store'
 
-  export const layout = writable('');
-  export const title = writable('');
+  export const layout = writable('')
+  export const title = writable('')
 </script>
 
 <script>
@@ -18,7 +18,7 @@
         console.log('DefaultLayout')
         return DefaultLayout
     }
-  })();
+  })()
 </script>
 
 <svelte:head>
@@ -26,5 +26,5 @@
 </svelte:head>
 
 <svelte:component this={layout_component} title={$title}>
-  <slot/>
+  <slot />
 </svelte:component>

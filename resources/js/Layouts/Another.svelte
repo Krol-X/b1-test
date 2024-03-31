@@ -5,7 +5,7 @@
 </script>
 
 <h1>Another layout with title: <b>{title}</b></h1>
-<Menu/>
+<Menu />
 <div>
-  <slot/>
+  <slot />
 </div>

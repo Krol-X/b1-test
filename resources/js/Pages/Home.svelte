@@ -1,11 +1,12 @@
 <script context="module">
-  import {layout, title} from '../Layouts/Layout.svelte'
+  import { layout, title } from '../Layouts/Layout.svelte'
 </script>
+
 <script>
   $layout = null
   $title = 'Home'
 
-  let user = "User";
+  let user = 'User'
 </script>
 
 <div>
