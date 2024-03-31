@@ -9,12 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserInfo extends Model {
   use HasFactory, SoftDeletes;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-  protected $fillable = [
+  public const fields = [
     'department_id',
     'last_name',
     'name',
@@ -25,4 +20,11 @@ class UserInfo extends Model {
     'login',
     'password'
   ];
+
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array<int, string>
+   */
+  protected $fillable = self::fields;
 }

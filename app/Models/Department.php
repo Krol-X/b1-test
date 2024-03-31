@@ -9,13 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Department extends Model {
   use HasFactory, SoftDeletes;
 
+  public const fields = [
+    'name',
+    'parent_id'
+  ];
+
   /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
-  protected $fillable = [
-    'name',
-    'parent_id'
-  ];
+  protected $fillable = self::fields;
 }
