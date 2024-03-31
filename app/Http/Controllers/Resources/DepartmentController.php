@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Abstract\Http\Controllers\ResourceController;
-use App\DTO\Resources\DepartmentInfo;
+use App\DTO\Resources\DepartmentData;
 use App\Services\DepartmentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class DepartmentController extends ResourceController {
   function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
-    $info = new DepartmentInfo($validated);
+    $info = new DepartmentData($validated);
     $record = DepartmentService::createDepartment($info);
 
     return response()->json([
@@ -55,7 +55,7 @@ class DepartmentController extends ResourceController {
   function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
-    $info = new DepartmentInfo($validated);
+    $info = new DepartmentData($validated);
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {

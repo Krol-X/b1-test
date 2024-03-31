@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\DTO\Resources\DepartmentInfo;
+use App\DTO\Resources\DepartmentData;
 use App\Models\Department;
 use Illuminate\Support\Collection;
 
 class DepartmentService {
-  public static function createDepartment(DepartmentInfo $info): Department {
+  public static function createDepartment(DepartmentData $info): Department {
     $record = Department::create($info->toArray());
     return $record;
   }
@@ -27,7 +27,7 @@ class DepartmentService {
     return $record;
   }
 
-  public static function updateDepartment(Department $record, DepartmentInfo $info): Department {
+  public static function updateDepartment(Department $record, DepartmentData $info): Department {
     $record->update($info->toArray());
     return $record;
   }

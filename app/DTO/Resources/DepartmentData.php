@@ -2,7 +2,7 @@
 
 namespace App\DTO\Resources;
 
-class DepartmentInfo {
+class DepartmentData {
   private readonly array $data;
 
   public function __construct(array $data) {
