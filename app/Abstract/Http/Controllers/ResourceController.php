@@ -5,8 +5,7 @@ namespace App\Abstract\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-abstract class ResourceController extends Controller
-{
+abstract class ResourceController extends Controller {
   abstract function create(Request $request);
 
   abstract function list(Request $request);

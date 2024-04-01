@@ -9,8 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserInfoController extends ResourceController
-{
+class UserInfoController extends ResourceController {
   const VALIDATION = [
     'department_id' => 'nullable|integer',
     'last_name' => 'required|string',
@@ -23,8 +22,7 @@ class UserInfoController extends ResourceController
     'password' => 'required|string',
   ];
 
-  function create(Request $request): JsonResponse
-  {
+  function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
     $info = new UserInfoData($validated);
@@ -40,8 +38,7 @@ class UserInfoController extends ResourceController
     );
   }
 
-  function list(Request $request): JsonResponse
-  {
+  function list(Request $request): JsonResponse {
     $records = UserInfoService::listUserInfos();
 
     return response()->json(
@@ -53,8 +50,7 @@ class UserInfoController extends ResourceController
     );
   }
 
-  function read(Request $request, $id): JsonResponse
-  {
+  function read(Request $request, $id): JsonResponse {
     $record = UserInfoService::getUserInfo($id);
 
     if ($record) {
@@ -75,8 +71,7 @@ class UserInfoController extends ResourceController
     }
   }
 
-  function update(Request $request, $id): JsonResponse
-  {
+  function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
     $info = new UserInfoData($validated);
@@ -102,8 +97,7 @@ class UserInfoController extends ResourceController
     }
   }
 
-  function delete(Request $request, $id): JsonResponse
-  {
+  function delete(Request $request, $id): JsonResponse {
     $record = UserInfoService::getUserInfo($id);
 
     if ($record) {

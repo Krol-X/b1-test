@@ -9,15 +9,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DepartmentController extends ResourceController
-{
+class DepartmentController extends ResourceController {
   const VALIDATION = [
     'name' => 'required|string',
     'parent_id' => 'nullable|integer',
   ];
 
-  function create(Request $request): JsonResponse
-  {
+  function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
     $info = new DepartmentData($validated);
@@ -33,8 +31,7 @@ class DepartmentController extends ResourceController
     );
   }
 
-  function list(Request $request): JsonResponse
-  {
+  function list(Request $request): JsonResponse {
     $records = DepartmentService::listDepartments();
 
     return response()->json(
@@ -46,8 +43,7 @@ class DepartmentController extends ResourceController
     );
   }
 
-  function read(Request $request, $id): JsonResponse
-  {
+  function read(Request $request, $id): JsonResponse {
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {
@@ -68,8 +64,7 @@ class DepartmentController extends ResourceController
     }
   }
 
-  function update(Request $request, $id): JsonResponse
-  {
+  function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
     $info = new DepartmentData($validated);
@@ -95,8 +90,7 @@ class DepartmentController extends ResourceController
     }
   }
 
-  function delete(Request $request, $id): JsonResponse
-  {
+  function delete(Request $request, $id): JsonResponse {
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {
