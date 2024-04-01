@@ -1,15 +1,17 @@
 <script>
-  import { inertia } from '@inertiajs/svelte'
+  import MenuLink from '@/Layouts/Components/MenuLink.svelte'
 </script>
 
 <div class="menu">
-  <a use:inertia href="/">Home</a>
-  <a use:inertia href="/test">Test</a>
+  <MenuLink text="О проекте" href="/" />
+  <MenuLink text="Данные пользователей" href="/user-infos" />
+  <MenuLink text="Данные отделов" href="/departments" />
+  <div class="flex-1"></div>
+  <MenuLink text="Импорт" href="/import" />
 </div>
 
-<style>
+<style lang="scss">
   .menu {
-    display: flex;
-    gap: 20px;
+    @apply flex w-screen bg-gray-50;
   }
 </style>

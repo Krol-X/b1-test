@@ -13,6 +13,14 @@ Route::get('/', function () {
   return Inertia::render('Home');
 });
 
-Route::get('/test', function () {
-  return Inertia::render('Test', ['user' => 'You']);
+Route::get('/user-infos', function () {
+  return Inertia::render('UserInfos');
+});
+
+Route::get('/departments', function () {
+  return Inertia::render('Departments');
+});
+
+Route::get('/import', function () {
+  return Inertia::render('Import');
 });
