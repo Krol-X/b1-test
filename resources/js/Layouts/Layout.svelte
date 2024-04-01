@@ -7,13 +7,9 @@
 
 <script>
   import DefaultLayout from './Default.svelte'
-  import AnotherLayout from './Another.svelte'
 
   $: layout_component = (() => {
     switch ($layout) {
-      case 'another':
-        console.log('AnotherLayout')
-        return AnotherLayout
       default:
         console.log('DefaultLayout')
         return DefaultLayout

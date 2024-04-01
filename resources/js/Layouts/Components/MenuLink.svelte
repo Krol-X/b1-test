@@ -14,8 +14,9 @@
 
 <style lang="scss">
   a {
-    @apply px-4 py-2;
-    @apply text-xs sm:text-base;
+    @apply px-3 sm:px-4 py-2 flex items-center;
+
+    font-size: clamp(0.75rem, 2.5vw, 1rem);
 
     &:hover {
       @apply bg-slate-200;
