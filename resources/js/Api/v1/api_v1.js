@@ -17,7 +17,7 @@ export const api1Method = (name, http_method = 'post', has_param = false) => {
     return response
   }
 
-  return has_param ?
-    async (param, data, resHandler) => await func(param, data, resHandler) :
-    async (data, resHandler) => await func(null, data, resHandler)
+  return has_param
+    ? async (param, data, resHandler) => await func(param, data, resHandler)
+    : async (data, resHandler) => await func(null, data, resHandler)
 }

@@ -98,10 +98,7 @@ function newUserInfosStore() {
     try {
       const raw_data = response.json()
       const data = await TUserInfo.validate(raw_data)
-      update((items) => [
-        ...items.filter(it => it.id !== data.id),
-        data
-      ])
+      update((items) => [...items.filter((it) => it.id !== data.id), data])
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -122,7 +119,7 @@ function newUserInfosStore() {
     try {
       const raw_data = response.json()
       const id = raw_data?.id
-      update((items) => items.filter(it => it.id !== id))
+      update((items) => items.filter((it) => it.id !== id))
     } catch (err) {
       console.error(JSON.stringify(err))
     }

@@ -10,7 +10,7 @@
   $: is_active = $page.url.endsWith(href)
 </script>
 
-<a use:inertia class:active={is_active} href={href}>{text}</a>
+<a use:inertia class:active={is_active} {href}>{text}</a>
 
 <style lang="scss">
   a {

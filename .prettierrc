@@ -5,6 +5,9 @@
   "trailingComma": "none",
   "semi": false,
   "printWidth": 100,
+  "braceStyle": "1tbs",
+  "bracketSpacing": true,
+  "bracketSameLine": true,
   "plugins": [
     "@prettier/plugin-php",
     "prettier-plugin-svelte"
