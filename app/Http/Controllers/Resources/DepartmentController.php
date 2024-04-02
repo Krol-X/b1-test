@@ -15,6 +15,7 @@ class DepartmentController extends ResourceController {
     'parent_id' => 'nullable|integer',
   ];
 
+  // post /department
   function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -23,7 +24,7 @@ class DepartmentController extends ResourceController {
 
     return response()->json(
       [
-        'message' => 'Department created',
+        'message' => 'Department created successfully',
         'id' => $record->id,
         'created_at' => $record->created_at,
       ],
@@ -31,29 +32,25 @@ class DepartmentController extends ResourceController {
     );
   }
 
+  // get /department
   function list(Request $request): JsonResponse {
     $records = DepartmentService::listDepartments();
 
-    return response()->json(
-      [
-        'message' => 'Ok',
-        'data' => $records,
-      ],
-      Response::HTTP_OK
-    );
+    return response()->json([
+      'message' => 'Ok',
+      'data' => $records,
+    ]);
   }
 
+  // get /department/{id}
   function read(Request $request, $id): JsonResponse {
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {
-      return response()->json(
-        [
-          'message' => 'Department found',
-          'data' => $record,
-        ],
-        Response::HTTP_OK
-      );
+      return response()->json([
+        'message' => 'Department found',
+        'data' => $record,
+      ]);
     } else {
       return response()->json(
         [
@@ -64,6 +61,7 @@ class DepartmentController extends ResourceController {
     }
   }
 
+  // put /department/{id}
   function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -72,14 +70,11 @@ class DepartmentController extends ResourceController {
 
     if ($record) {
       $record_updated = DepartmentService::updateDepartment($record, $info);
-      return response()->json(
-        [
-          'message' => 'Department updated',
-          'id' => $record_updated->id,
-          'created_at' => $record_updated->created_at,
-        ],
-        Response::HTTP_OK
-      );
+      return response()->json([
+        'message' => 'Department updated',
+        'id' => $record_updated->id,
+        'created_at' => $record_updated->created_at,
+      ]);
     } else {
       return response()->json(
         [
@@ -90,18 +85,16 @@ class DepartmentController extends ResourceController {
     }
   }
 
+  // delete /department/{id}
   function delete(Request $request, $id): JsonResponse {
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {
       $record->delete();
-      return response()->json(
-        [
-          'message' => 'Department deleted',
-          'id' => $id,
-        ],
-        Response::HTTP_OK
-      );
+      return response()->json([
+        'message' => 'Department deleted',
+        'id' => $id,
+      ]);
     } else {
       return response()->json(
         [

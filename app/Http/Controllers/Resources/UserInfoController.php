@@ -22,6 +22,7 @@ class UserInfoController extends ResourceController {
     'password' => 'required|string',
   ];
 
+  // post /user-info
   function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -30,7 +31,7 @@ class UserInfoController extends ResourceController {
 
     return response()->json(
       [
-        'message' => 'serInfo created',
+        'message' => 'UserInfo created successfully',
         'id' => $record->id,
         'created_at' => $record->created_at,
       ],
@@ -38,29 +39,25 @@ class UserInfoController extends ResourceController {
     );
   }
 
+  // get /user-info
   function list(Request $request): JsonResponse {
     $records = UserInfoService::listUserInfos();
 
-    return response()->json(
-      [
-        'message' => 'Ok',
-        'data' => $records,
-      ],
-      Response::HTTP_OK
-    );
+    return response()->json([
+      'message' => 'Ok',
+      'data' => $records,
+    ]);
   }
 
+  // get /user-info/{id}
   function read(Request $request, $id): JsonResponse {
     $record = UserInfoService::getUserInfo($id);
 
     if ($record) {
-      return response()->json(
-        [
-          'message' => 'UserInfo found',
-          'data' => $record,
-        ],
-        Response::HTTP_OK
-      );
+      return response()->json([
+        'message' => 'UserInfo found',
+        'data' => $record,
+      ]);
     } else {
       return response()->json(
         [
@@ -71,6 +68,7 @@ class UserInfoController extends ResourceController {
     }
   }
 
+  // put /user-info/{id}
   function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -79,14 +77,11 @@ class UserInfoController extends ResourceController {
 
     if ($record) {
       $record_updated = UserInfoService::updateUserInfo($record, $info);
-      return response()->json(
-        [
-          'message' => 'UserInfo updated',
-          'id' => $record_updated->id,
-          'created_at' => $record_updated->created_at,
-        ],
-        Response::HTTP_OK
-      );
+      return response()->json([
+        'message' => 'UserInfo updated',
+        'id' => $record_updated->id,
+        'created_at' => $record_updated->created_at,
+      ]);
     } else {
       return response()->json(
         [
@@ -97,18 +92,16 @@ class UserInfoController extends ResourceController {
     }
   }
 
+  // delete /user-info/{id}
   function delete(Request $request, $id): JsonResponse {
     $record = UserInfoService::getUserInfo($id);
 
     if ($record) {
       $record->delete();
-      return response()->json(
-        [
-          'message' => 'UserInfo deleted',
-          'id' => $id,
-        ],
-        Response::HTTP_OK
-      );
+      return response()->json([
+        'message' => 'UserInfo deleted',
+        'id' => $id,
+      ]);
     } else {
       return response()->json(
         [

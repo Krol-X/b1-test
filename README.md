@@ -15,9 +15,6 @@
 
 ### Files
 
-- [ ] Реализовать экспорт (он проще)
-- [ ] Реализовать импорт с распознованием типа csv
-
 ### Last
 
 - [ ] Разобраться с авторизацией Laravel+Inertia
@@ -26,13 +23,19 @@
 ## Запланированные маршруты
 
 ```
-users, departments
+-- users, departments --
 
-post / # create(fields) -> id
-get / # list(fields) -> posts.fields
-get /:id # read(id, fields) -> post[id].fields
-put /:id # update(id, fields) -> post[id].fields
+post / # create(fields) -> new_item
+get / # list(fields) -> items
+put /:id # update(id, fields) -> items[id]
 delete /:id # delete(id) -> status
+
+-- files --
+
+post / # upload(fields) -> new_item
+get / # list(fields) -> items
+get /:file_id # download(file_id) -> file
+delete /:file_id # delete(file_id) -> status
 
 post /import # import(params) -> status
 post /export # export(params) -> data
