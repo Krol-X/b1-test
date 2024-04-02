@@ -32,8 +32,8 @@ class DepartmentService {
     return $record;
   }
 
-  public static function deleteDepartment(Department $department): void {
-    $department->delete();
+  public static function deleteDepartment(Department $record): void {
+    $record->delete();
   }
 
   public static function getTrashed(int $id): ?Department {

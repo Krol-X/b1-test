@@ -25,8 +25,7 @@ class DepartmentController extends ResourceController {
     return response()->json(
       [
         'message' => 'Department created successfully',
-        'id' => $record->id,
-        'created_at' => $record->created_at,
+        'data' => $record->toJson()
       ],
       Response::HTTP_CREATED
     );
@@ -38,7 +37,7 @@ class DepartmentController extends ResourceController {
 
     return response()->json([
       'message' => 'Ok',
-      'data' => $records,
+      'data' => $records->toJson()
     ]);
   }
 
@@ -49,13 +48,11 @@ class DepartmentController extends ResourceController {
     if ($record) {
       return response()->json([
         'message' => 'Department found',
-        'data' => $record,
+        'data' => $record->toJson(),
       ]);
     } else {
       return response()->json(
-        [
-          'message' => 'Department not found',
-        ],
+        ['message' => 'Department not found'],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -72,14 +69,11 @@ class DepartmentController extends ResourceController {
       $record_updated = DepartmentService::updateDepartment($record, $info);
       return response()->json([
         'message' => 'Department updated',
-        'id' => $record_updated->id,
-        'created_at' => $record_updated->created_at,
+        'data' => $record->toJson()
       ]);
     } else {
       return response()->json(
-        [
-          'message' => 'Department not found',
-        ],
+        ['message' => 'Department not found'],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -90,16 +84,14 @@ class DepartmentController extends ResourceController {
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {
-      $record->delete();
+      DepartmentService::deleteDepartment($record);
       return response()->json([
         'message' => 'Department deleted',
         'id' => $id,
       ]);
     } else {
       return response()->json(
-        [
-          'message' => 'Department not found',
-        ],
+        ['message' => 'Department not found'],
         Response::HTTP_NOT_FOUND
       );
     }

@@ -10,7 +10,7 @@ class FilesService {
   }
 
   public static function listFiles() {
-    return Storage::files('public/uploads');
+    return collect(Storage::files('public/uploads'));
   }
 
   public static function getFilePath($file_id) {

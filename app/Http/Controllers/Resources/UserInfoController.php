@@ -32,8 +32,7 @@ class UserInfoController extends ResourceController {
     return response()->json(
       [
         'message' => 'UserInfo created successfully',
-        'id' => $record->id,
-        'created_at' => $record->created_at,
+        'data' => $record->toJson()
       ],
       Response::HTTP_CREATED
     );
@@ -45,7 +44,7 @@ class UserInfoController extends ResourceController {
 
     return response()->json([
       'message' => 'Ok',
-      'data' => $records,
+      'data' => $records->toJson()
     ]);
   }
 
@@ -56,13 +55,11 @@ class UserInfoController extends ResourceController {
     if ($record) {
       return response()->json([
         'message' => 'UserInfo found',
-        'data' => $record,
+        'data' => $record->toJson(),
       ]);
     } else {
       return response()->json(
-        [
-          'message' => 'UserInfo not found',
-        ],
+        ['message' => 'UserInfo not found'],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -79,14 +76,11 @@ class UserInfoController extends ResourceController {
       $record_updated = UserInfoService::updateUserInfo($record, $info);
       return response()->json([
         'message' => 'UserInfo updated',
-        'id' => $record_updated->id,
-        'created_at' => $record_updated->created_at,
+        'data' => $record->toJson()
       ]);
     } else {
       return response()->json(
-        [
-          'message' => 'UserInfo not found',
-        ],
+        ['message' => 'UserInfo not found'],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -97,16 +91,14 @@ class UserInfoController extends ResourceController {
     $record = UserInfoService::getUserInfo($id);
 
     if ($record) {
-      $record->delete();
+      UserInfoService::deleteUserInfo($record);
       return response()->json([
         'message' => 'UserInfo deleted',
         'id' => $id,
       ]);
     } else {
       return response()->json(
-        [
-          'message' => 'UserInfo not found',
-        ],
+        ['message' => 'UserInfo not found'],
         Response::HTTP_NOT_FOUND
       );
     }

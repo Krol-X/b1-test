@@ -15,12 +15,12 @@ class FilesController extends ResourceController {
     if ($request->hasFile('file')) {
       $file = $request->file('file');
       $file_name = time() . '_' . $file->getClientOriginalName();
-      $file_path = FilesService::uploadFile($file, $file_name);
-      if ($file_path) {
+      $record = FilesService::uploadFile($file, $file_name);
+      if ($record) {
         return response()->json(
           [
             'message' => 'File uploaded successfully',
-            'file_path' => $file_path,
+            'data' => $record->toJson(),
           ],
           Response::HTTP_CREATED
         );
@@ -35,7 +35,10 @@ class FilesController extends ResourceController {
   // get /files
   function list(Request $request): JsonResponse {
     $files = FilesService::listFiles();
-    return response()->json($files);
+    return response()->json([
+      'message' => 'Ok',
+      'data' => $files->toJson()
+    ]);
   }
 
   // get /files/{id}
@@ -44,7 +47,10 @@ class FilesController extends ResourceController {
     if ($file_path) {
       return Storage::download($file_path);
     }
-    return response()->json(['message' => 'File not found'], Response::HTTP_NOT_FOUND);
+    return response()->json(
+      ['message' => 'File not found'],
+      Response::HTTP_NOT_FOUND
+    );
   }
 
   function update(Request $request, $id) {
@@ -55,8 +61,14 @@ class FilesController extends ResourceController {
   function delete(Request $request, $id): JsonResponse {
     $deleted = FilesService::deleteFile($id);
     if ($deleted) {
-      return response()->json(['message' => 'File deleted successfully']);
+      return response()->json([
+        'message' => 'File deleted successfully',
+        'id' => $id
+      ]);
     }
-    return response()->json(['message' => 'File not found'], Response::HTTP_NOT_FOUND);
+    return response()->json(
+      ['message' => 'File not found'],
+      Response::HTTP_NOT_FOUND
+    );
   }
 }

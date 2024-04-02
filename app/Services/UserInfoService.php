@@ -32,8 +32,8 @@ class UserInfoService {
     return $record;
   }
 
-  public static function deleteUserInfo(UserInfo $UserInfo): void {
-    $UserInfo->delete();
+  public static function deleteUserInfo(UserInfo $record): void {
+    $record->delete();
   }
 
   public static function getTrashed(int $id): ?UserInfo {
