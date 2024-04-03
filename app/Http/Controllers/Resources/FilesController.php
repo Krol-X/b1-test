@@ -8,14 +8,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FilesController extends ResourceController {
   // post /files
   function create(Request $request): JsonResponse {
     if ($request->hasFile('file')) {
       $file = $request->file('file');
-      $file_name = time() . '_' . $file->getClientOriginalName();
-      $record = FilesService::uploadFile($file, $file_name);
+
+      $record = FilesService::uploadFile($file);
       if ($record) {
         return response()->json(
           [
@@ -37,15 +38,18 @@ class FilesController extends ResourceController {
     $files = FilesService::listFiles();
     return response()->json([
       'message' => 'Ok',
-      'data' => $files->toJson()
+      'data' => $files
     ]);
   }
 
   // get /files/{id}
-  function read(Request $request, $id) {
-    $file_path = FilesService::getFilePath($id);
-    if ($file_path) {
-      return Storage::download($file_path);
+  function read(Request $request, $id): StreamedResponse|JsonResponse {
+    $record = FilesService::getRecord($id);
+    if ($record) {
+      $file_path = FilesService::getFilePath($record);
+      if ($file_path) {
+        return Storage::download($file_path);
+      }
     }
     return response()->json(
       ['message' => 'File not found'],
@@ -59,8 +63,9 @@ class FilesController extends ResourceController {
 
   // delete /files/{id}
   function delete(Request $request, $id): JsonResponse {
-    $deleted = FilesService::deleteFile($id);
-    if ($deleted) {
+    $record = FilesService::getRecord($id);
+    if ($record) {
+      FilesService::deleteFile($record);
       return response()->json([
         'message' => 'File deleted successfully',
         'id' => $id

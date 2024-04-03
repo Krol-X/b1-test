@@ -2,7 +2,7 @@ export const api1Method = (name, http_method = 'post', has_param = false) => {
   const prefix = '/api/v1'
 
   const func = async (param, data, resHandler) => {
-    console.log(`API1/${name}: ${JSON.stringify(data)}`)
+    console.log(`API1/${name}: ${data}`)
 
     const response = await axios({
       method: http_method,

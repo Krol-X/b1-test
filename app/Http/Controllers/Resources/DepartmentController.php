@@ -25,7 +25,7 @@ class DepartmentController extends ResourceController {
     return response()->json(
       [
         'message' => 'Department created successfully',
-        'data' => $record->toJson()
+        'data' => $record
       ],
       Response::HTTP_CREATED
     );
@@ -37,7 +37,7 @@ class DepartmentController extends ResourceController {
 
     return response()->json([
       'message' => 'Ok',
-      'data' => $records->toJson()
+      'data' => $records
     ]);
   }
 
@@ -48,7 +48,7 @@ class DepartmentController extends ResourceController {
     if ($record) {
       return response()->json([
         'message' => 'Department found',
-        'data' => $record->toJson(),
+        'data' => $record,
       ]);
     } else {
       return response()->json(
@@ -69,7 +69,7 @@ class DepartmentController extends ResourceController {
       $record_updated = DepartmentService::updateDepartment($record, $info);
       return response()->json([
         'message' => 'Department updated',
-        'data' => $record->toJson()
+        'data' => $record
       ]);
     } else {
       return response()->json(

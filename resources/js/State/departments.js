@@ -16,7 +16,7 @@ function newDepartmentsStore() {
   async function resCreateDepartment(response) {
     try {
       const raw_data = getAxiosData(response)
-      const new_record = JSON.parse(raw_data.data)
+      const new_record = raw_data.data
       update((items) => [...items, new_record])
     } catch (err) {
       console.error(JSON.stringify(err))
@@ -34,7 +34,7 @@ function newDepartmentsStore() {
   async function resListDepartments(response) {
     try {
       const raw_data = getAxiosData(response)
-      const departments = JSON.parse(raw_data.data)
+      const departments = raw_data.data
       set(departments)
     } catch (err) {
       console.error(JSON.stringify(err))
@@ -61,7 +61,7 @@ function newDepartmentsStore() {
   async function resUpdateDepartment(response) {
     try {
       const raw_data = getAxiosData(response)
-      const data = JSON.parse(raw_data.data)
+      const data = raw_data.data
       update((items) => [...items.filter((it) => it.id !== data.id), data])
     } catch (err) {
       console.error(JSON.stringify(err))

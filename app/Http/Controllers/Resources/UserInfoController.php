@@ -32,7 +32,7 @@ class UserInfoController extends ResourceController {
     return response()->json(
       [
         'message' => 'UserInfo created successfully',
-        'data' => $record->toJson()
+        'data' => $record
       ],
       Response::HTTP_CREATED
     );
@@ -44,7 +44,7 @@ class UserInfoController extends ResourceController {
 
     return response()->json([
       'message' => 'Ok',
-      'data' => $records->toJson()
+      'data' => $records
     ]);
   }
 
@@ -55,7 +55,7 @@ class UserInfoController extends ResourceController {
     if ($record) {
       return response()->json([
         'message' => 'UserInfo found',
-        'data' => $record->toJson(),
+        'data' => $record,
       ]);
     } else {
       return response()->json(
@@ -76,7 +76,7 @@ class UserInfoController extends ResourceController {
       $record_updated = UserInfoService::updateUserInfo($record, $info);
       return response()->json([
         'message' => 'UserInfo updated',
-        'data' => $record->toJson()
+        'data' => $record
       ]);
     } else {
       return response()->json(
