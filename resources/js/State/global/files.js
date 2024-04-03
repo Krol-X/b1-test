@@ -10,7 +10,9 @@ function newFilesStore() {
   //
 
   async function reqUploadFile(file) {
-    await files_api.upload(file, resUploadFile)
+    const formData = new FormData()
+    formData.append('file', file)
+    await files_api.upload({ data: formData }, resUploadFile)
   }
 
   async function resUploadFile(response) {

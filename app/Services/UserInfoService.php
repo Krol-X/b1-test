@@ -16,8 +16,6 @@ class UserInfoService {
     $query = UserInfo::query();
     if ($filter && is_callable($filter)) {
       $query = $filter($query);
-    } else {
-      $query = $query->orderBy('created_at', 'desc');
     }
     return $query->get();
   }

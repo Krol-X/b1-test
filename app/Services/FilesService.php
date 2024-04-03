@@ -22,8 +22,6 @@ class FilesService {
     $query = File::query();
     if ($filter && is_callable($filter)) {
       $query = $filter($query);
-    } else {
-      $query = $query->orderBy('updated_at', 'desc');
     }
     return $query->get();
   }

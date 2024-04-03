@@ -1,7 +1,7 @@
 export const api1Method = (name, http_method = 'post', has_param = false, url_only = false) => {
   const prefix = '/api/v1'
 
-  const func = async (param, data, resHandler) => {
+  const func = async (param, data_body, resHandler) => {
     let url = `${prefix}/${name}`
     if (param) {
       url += `/${param}`
@@ -10,12 +10,16 @@ export const api1Method = (name, http_method = 'post', has_param = false, url_on
       return url
     }
 
-    console.log(`API1: ${url} | ${data}`)
+    const params = {}
+    if (data_body?.data) params.data = data_body.data
+    if (data_body?.body) params.body = data_body.body
+
+    console.log(`API1: ${url} | ${params}`)
 
     const response = await axios({
       method: http_method,
       url: url,
-      data: data
+      ...data_body
     })
     console.log(`Response: ${response.statusText}`)
 
@@ -27,6 +31,6 @@ export const api1Method = (name, http_method = 'post', has_param = false, url_on
   }
 
   return has_param
-    ? async (param, data, resHandler) => await func(param, data, resHandler)
-    : async (data, resHandler) => await func(null, data, resHandler)
+    ? async (param, data_body, resHandler) => await func(param, data_body, resHandler)
+    : async (data_body, resHandler) => await func(null, data_body, resHandler)
 }

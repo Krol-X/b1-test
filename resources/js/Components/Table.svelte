@@ -1,5 +1,5 @@
 <script>
-  import { get_columns } from '@/Utils'
+  import { getColumns } from '@/Utils'
   import Button from '@/Components/Table/Button.svelte'
   import { newTableStore } from '@/State/table'
   import { onMount } from 'svelte'
@@ -8,7 +8,7 @@
   export let actions = {}
 
   const state = newTableStore()
-  $: columns = get_columns(data)
+  $: columns = getColumns(data)
 
   onMount(() => {
     if (data.length) {

@@ -21,7 +21,7 @@ class FilesController extends ResourceController {
         return response()->json(
           [
             'message' => 'File uploaded successfully',
-            'data' => $record->toJson(),
+            'data' => $record,
           ],
           Response::HTTP_CREATED
         );

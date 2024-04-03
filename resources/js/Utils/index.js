@@ -1,4 +1,4 @@
-export const get_columns = (data, for_all) => {
+export const getColumns = (data, for_all) => {
   const columns = new Set()
   if (data.length) {
     if (for_all) {
@@ -10,4 +10,10 @@ export const get_columns = (data, for_all) => {
     }
   }
   return columns
+}
+
+export const resetInput = (elem) => {
+  const t = elem.type
+  elem.type = ''
+  elem.type = t
 }
