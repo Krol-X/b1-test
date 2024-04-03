@@ -7,12 +7,18 @@
   $title = 'Departments'
 
   import { onMount } from 'svelte'
-  import { departments } from '@/State'
+  import { departments, files } from '@/State'
   import Table from '@/Components/Table.svelte'
 
   onMount(async () => {
     await departments.reqListDepartments()
   })
+
+  const actions = {
+    'Создать': () => {},
+    'Изменить': () => {},
+    'Удалить': () => {}
+  }
 </script>
 
-<Table data={$departments} />
+<Table data={$departments} {actions} />

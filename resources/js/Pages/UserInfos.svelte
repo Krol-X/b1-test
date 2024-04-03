@@ -83,6 +83,12 @@
       password: ''
     }
   ]
+
+  const actions = {
+    'Создать': () => {},
+    'Изменить': () => {},
+    'Удалить': () => {}
+  }
 </script>
 
-<Table data={test} />
+<Table data={test} {actions} />

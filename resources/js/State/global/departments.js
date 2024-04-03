@@ -2,7 +2,7 @@ import { writable } from 'svelte/store'
 import { departments_api } from '@/Api/v1/departments_api.js'
 import { getAxiosData } from '@/Utils/api.js'
 
-function newDepartmentsStore() {
+export function newDepartmentsStore() {
   const { subscribe, set, update } = writable([])
 
   //
@@ -34,8 +34,8 @@ function newDepartmentsStore() {
   async function resListDepartments(response) {
     try {
       const raw_data = getAxiosData(response)
-      const departments = raw_data.data
-      set(departments)
+      const records = raw_data.data
+      set(records)
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -61,8 +61,8 @@ function newDepartmentsStore() {
   async function resUpdateDepartment(response) {
     try {
       const raw_data = getAxiosData(response)
-      const data = raw_data.data
-      update((items) => [...items.filter((it) => it.id !== data.id), data])
+      const record = raw_data.data
+      update((items) => [...items.filter((it) => it.id !== record.id), record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }

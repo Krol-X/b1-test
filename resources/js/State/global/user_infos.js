@@ -2,7 +2,7 @@ import { writable } from 'svelte/store'
 import { user_infos_api } from '@/Api/v1/user_infos_api.js'
 import { getAxiosData } from '@/Utils/api.js'
 
-function newUserInfosStore() {
+export function newUserInfosStore() {
   const { subscribe, set, update } = writable([])
 
   //
@@ -16,7 +16,7 @@ function newUserInfosStore() {
   async function resCreateUserInfo(response) {
     try {
       const raw_data = getAxiosData(response)
-      const new_record = JSON.parse(raw_data.data)
+      const new_record = raw_data.data
       update((items) => [...items, new_record])
     } catch (err) {
       console.error(JSON.stringify(err))
@@ -34,8 +34,8 @@ function newUserInfosStore() {
   async function resListUserInfos(response) {
     try {
       const raw_data = getAxiosData(response)
-      const user_infos = JSON.parse(raw_data.data)
-      set(user_infos)
+      const records = raw_data.data
+      set(records)
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -61,8 +61,8 @@ function newUserInfosStore() {
   async function resUpdateUserInfo(response) {
     try {
       const raw_data = getAxiosData(response)
-      const data = JSON.parse(raw_data.data)
-      update((items) => [...items.filter((it) => it.id !== data.id), data])
+      const record = raw_data.data
+      update((items) => [...items.filter((it) => it.id !== record.id), record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }

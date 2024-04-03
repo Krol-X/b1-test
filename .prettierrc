@@ -4,7 +4,7 @@
   "singleQuote": true,
   "trailingComma": "none",
   "semi": false,
-  "printWidth": 100,
+  "printWidth": 120,
   "braceStyle": "1tbs",
   "bracketSpacing": true,
   "bracketSameLine": true,

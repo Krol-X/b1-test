@@ -3,38 +3,31 @@
 </script>
 
 <script>
+  import Button from '@/Components/Table/Button.svelte'
+
   $layout = 'default'
-  $title = 'Import'
+  $title = 'Импорт'
 
   // import { departments } from '@/State'
   import Table from '@/Components/Table.svelte'
+  import { onMount } from 'svelte'
+  import { files } from '@/State/index.js'
 
-  const test = [
-    {
-      id: 1,
-      filename: 'test.txt'
+  onMount(async () => {
+    await files.reqListFiles()
+  })
+
+  const actions = {
+    'Загрузить': () => {
+      // Выбрать файл
+      // Загрузить на сервер
     },
-    {
-      id: 2,
-      filename: 'test.txt'
-    },
-    {
-      id: 3,
-      filename: 'test.txt'
-    },
-    {
-      id: 4,
-      filename: 'test.txt'
-    },
-    {
-      id: 5,
-      filename: 'test.txt'
-    },
-    {
-      id: 6,
-      filename: 'test.txt'
+    'Имортировать': () => {},
+    'Удалить': () => {
+      // Удалить файл на сервере
+      // Удалить файл из списка
     }
-  ]
+  }
 </script>
 
-<Table data={test} />
+<Table data={$files} {actions} />

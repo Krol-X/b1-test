@@ -1,14 +1,23 @@
-export const api1Method = (name, http_method = 'post', has_param = false) => {
+export const api1Method = (name, http_method = 'post', has_param = false, url_only = false) => {
   const prefix = '/api/v1'
 
   const func = async (param, data, resHandler) => {
-    console.log(`API1/${name}: ${data}`)
+    let url = `${prefix}/${name}`
+    if (param) {
+      url += `/${param}`
+    }
+    if (url_only) {
+      return url
+    }
+
+    console.log(`API1: ${url} | ${data}`)
 
     const response = await axios({
       method: http_method,
-      url: param ? `${prefix}/${name}/${param}` : `${prefix}/${name}`,
+      url: url,
       data: data
     })
+    console.log(`Response: ${response.statusText}`)
 
     if (resHandler) {
       resHandler(response)

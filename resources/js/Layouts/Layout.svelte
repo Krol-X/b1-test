@@ -11,7 +11,6 @@
   $: layout_component = (() => {
     switch ($layout) {
       default:
-        console.log('DefaultLayout')
         return DefaultLayout
     }
   })()
