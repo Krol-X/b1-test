@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import { writable } from 'svelte/store'
 import { departments_api } from '@/Api/v1/departments_api.js'
+import { getAxiosData } from '@/Utils/api.js'
 
 function newDepartmentsStore() {
   const { subscribe, set, update } = writable([])
@@ -12,7 +13,7 @@ function newDepartmentsStore() {
   const TDepartment = yup.object({
     id: yup.number().required(),
     name: yup.string().required(),
-    parent_id: yup.number().required()
+    parent_id: yup.number().nullable()
   })
   const TDepartmentArray = yup.array().of(TDepartment)
 
@@ -26,13 +27,11 @@ function newDepartmentsStore() {
   }
 
   async function resCreateDepartment(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const new_department = await TDepartment.validate(raw_data)
-      update((items) => [...items, new_department])
+      const raw_data = getAxiosData(response)
+      const data = JSON.parse(raw_data.data)
+      const new_record = await TDepartment.validate(data)
+      update((items) => [...items, new_record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -47,12 +46,10 @@ function newDepartmentsStore() {
   }
 
   async function resListDepartments(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const departments = await TDepartmentArray.validate(raw_data)
+      const raw_data = getAxiosData(response)
+      const data = JSON.parse(raw_data.data)
+      const departments = await TDepartmentArray.validate(data)
       set(departments)
     } catch (err) {
       console.error(JSON.stringify(err))
@@ -78,13 +75,11 @@ function newDepartmentsStore() {
   }
 
   async function resUpdateDepartment(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const data = await TDepartment.validate(raw_data)
-      update((items) => [...items.filter((it) => it.id !== data.id), data])
+      const raw_data = getAxiosData(response)
+      const data = JSON.parse(raw_data.data)
+      const record = await TDepartment.validate(data)
+      update((items) => [...items.filter((it) => it.id !== record.id), record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -99,13 +94,12 @@ function newDepartmentsStore() {
   }
 
   async function resDeleteDepartment(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const id = raw_data?.id
-      update((items) => items.filter((it) => it.id !== id))
+      const raw_data = getAxiosData(response)
+      if (raw_data) {
+        const id = raw_data?.id
+        update((items) => items.filter((it) => it.id !== id))
+      }
     } catch (err) {
       console.error(JSON.stringify(err))
     }

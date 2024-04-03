@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import { writable } from 'svelte/store'
 import { user_infos_api } from '@/Api/v1/user_infos_api.js'
+import { getAxiosData } from '@/Utils/api.js'
 
 function newUserInfosStore() {
   const { subscribe, set, update } = writable([])
@@ -40,13 +41,11 @@ function newUserInfosStore() {
   }
 
   async function resCreateUserInfo(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const new_department = await TUserInfo.validate(raw_data)
-      update((items) => [...items, new_department])
+      const raw_data = getAxiosData(response)
+      const data = JSON.parse(raw_data.data)
+      const new_record = await TUserInfo.validate(data)
+      update((items) => [...items, new_record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -61,12 +60,10 @@ function newUserInfosStore() {
   }
 
   async function resListUserInfos(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const user_infos = await TUserInfoArray.validate(raw_data)
+      const raw_data = getAxiosData(response)
+      const data = JSON.parse(raw_data.data)
+      const user_infos = await TUserInfoArray.validate(data)
       set(user_infos)
     } catch (err) {
       console.error(JSON.stringify(err))
@@ -92,13 +89,11 @@ function newUserInfosStore() {
   }
 
   async function resUpdateUserInfo(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const data = await TUserInfo.validate(raw_data)
-      update((items) => [...items.filter((it) => it.id !== data.id), data])
+      const raw_data = getAxiosData(response)
+      const data = JSON.parse(raw_data.data)
+      const record = await TUserInfo.validate(data)
+      update((items) => [...items.filter((it) => it.id !== record.id), record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -113,13 +108,12 @@ function newUserInfosStore() {
   }
 
   async function resDeleteUserInfo(response) {
-    if (!response.ok) {
-      return
-    }
     try {
-      const raw_data = response.json()
-      const id = raw_data?.id
-      update((items) => items.filter((it) => it.id !== id))
+      const raw_data = getAxiosData(response)
+      if (raw_data) {
+        const id = raw_data?.id
+        update((items) => items.filter((it) => it.id !== id))
+      }
     } catch (err) {
       console.error(JSON.stringify(err))
     }

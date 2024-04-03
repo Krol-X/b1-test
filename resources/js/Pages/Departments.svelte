@@ -6,41 +6,13 @@
   $layout = 'default'
   $title = 'Departments'
 
-  // import { departments } from '@/State'
+  import { onMount } from 'svelte'
+  import { departments } from '@/State'
   import Table from '@/Components/Table.svelte'
 
-  const test = [
-    {
-      id: 1,
-      name: 'Test',
-      parent_id: ''
-    },
-    {
-      id: 2,
-      name: 'Test',
-      parent_id: ''
-    },
-    {
-      id: 3,
-      name: 'Test',
-      parent_id: ''
-    },
-    {
-      id: 4,
-      name: 'Test',
-      parent_id: ''
-    },
-    {
-      id: 5,
-      name: 'Test',
-      parent_id: ''
-    },
-    {
-      id: 6,
-      name: 'Test',
-      parent_id: ''
-    }
-  ]
+  onMount(async () => {
+    await departments.reqListDepartments()
+  })
 </script>
 
-<Table data={test} />
+<Table data={$departments} />

@@ -17,4 +17,11 @@ class Department extends Model {
    * @var array<int, string>
    */
   protected $fillable = self::fields;
+
+  /**
+   * The attributes that should be hidden for serialization.
+   *
+   * @var array<int, string>
+   */
+  protected $hidden = ['created_at', 'deleted_at'];
 }

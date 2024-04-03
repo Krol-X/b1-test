@@ -6,7 +6,7 @@ export const api1Method = (name, http_method = 'post', has_param = false) => {
 
     const response = await axios({
       method: http_method,
-      url: param ? `${prefix}/${name}/${param}` : `${prefix}/name`,
+      url: param ? `${prefix}/${name}/${param}` : `${prefix}/${name}`,
       data: data
     })
 
