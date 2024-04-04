@@ -3,8 +3,6 @@
 </script>
 
 <script>
-  import { onMount } from 'svelte'
-
   $layout = 'default'
   $title = 'User Infos'
 
@@ -13,10 +11,6 @@
   import { get } from 'svelte/store'
   import { user_infos_api } from '@/Api/v1/user_infos_api'
   import { gotoUrl } from '@/Utils/index.js'
-
-  onMount(async () => {
-    await user_infos.reqListUserInfos()
-  })
 
   const actions_default = {
     'Удалить': (state) => {
@@ -32,6 +26,8 @@
   }
 
   var actions = actions_default
+
+  user_infos.reqListUserInfos()
 </script>
 
-<Table data={$user_infos} {actions} />
+<Table data={$user_infos} {actions} id_key='XML_ID' />

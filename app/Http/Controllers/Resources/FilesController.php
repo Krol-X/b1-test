@@ -21,7 +21,9 @@ class FilesController extends ResourceController {
         return response()->json(
           [
             'message' => 'File uploaded successfully',
-            'data' => $record,
+            'data' => [
+              'name' => $record->name
+            ]
           ],
           Response::HTTP_CREATED
         );
@@ -38,7 +40,12 @@ class FilesController extends ResourceController {
     $files = FilesService::listFiles();
     return response()->json([
       'message' => 'Ok',
-      'data' => $files
+      'data' => $files->map(function($record) {
+        return [
+          'id' => $record->id,
+          'name' => $record->name
+        ];
+      })
     ]);
   }
 

@@ -8,15 +8,10 @@
   $layout = 'default'
   $title = 'Departments'
 
-  import { onMount } from 'svelte'
   import { get } from 'svelte/store'
   import { departments } from '@/State'
   import Table from '@/Components/Table.svelte'
   import { gotoUrl } from '@/Utils/index.js'
-
-  onMount(async () => {
-    await departments.reqListDepartments()
-  })
 
   const actions_default = {
     'Удалить': (state) => {
@@ -32,6 +27,8 @@
   }
 
   var actions = actions_default
+
+  departments.reqListDepartments()
 </script>
 
-<Table data={$departments} {actions} />
+<Table data={$departments} {actions} id_key='XML_ID' />

@@ -9,16 +9,11 @@
   $title = 'Импорт'
 
   import Table from '@/Components/Table.svelte'
-  import { onMount } from 'svelte'
   import { files } from '@/State/index.js'
   import { resetInput } from '@/Utils/index.js'
 
   let input_elem
   let selected_file
-
-  onMount(async () => {
-    await files.reqListFiles()
-  })
 
   async function uploadFile() {
     await files.reqUploadFile(selected_file[0])
@@ -38,6 +33,8 @@
       state.selectItem()
     }
   }
+
+  files.reqListFiles()
 </script>
 
 <input type="file" accept="text/csv" class="hidden"
@@ -46,4 +43,4 @@
        on:change={uploadFile}
 />
 
-<Table data={$files} {actions} />
+<Table data={$files} {actions} hidden_fields={['id']} />

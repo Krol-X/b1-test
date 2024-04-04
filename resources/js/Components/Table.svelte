@@ -2,13 +2,16 @@
   import { getColumns } from '@/Utils'
   import Button from '@/Components/Table/Button.svelte'
   import { newTableStore } from '@/State/table'
-  import Cell from '@/Components/Table/Cell.svelte'
 
   export let data = []
   export let actions = {}
+  export let id_key = 'id'
+  export let hidden_fields = []
 
   const state = newTableStore()
   $: columns = getColumns(data)
+  $: selected = $state?.selected
+  $: selected_key = selected? selected[id_key]: null
 </script>
 
 <div class="table-actions">
@@ -23,22 +26,28 @@
       <thead>
       <tr>
         {#each columns as column}
-          <th>{column}</th>
+          {#if !hidden_fields.includes(column)}
+            <th>
+              <div class="cell">{column}</div>
+            </th>
+          {/if}
         {/each}
       </tr>
       </thead>
       <tbody>
       {#each data as item}
         <tr on:click={() => state.selectItem(item)}
-            class:selected={item?.id === $state.selected?.id}
+            class:selected={item[id_key] === selected_key}
         >
           {#each columns as column, i}
-            <Cell is_header={i === 0}>
-              <div class="cell">{item[column] ?? ''}</div>
-            </Cell>
+            {#if !hidden_fields.includes(column)}
+              <td>
+                <div class="cell">{item[column] ?? ''}</div>
+              </td>
+            {/if}
           {/each}
         </tr>
-      {/each}
+    {/each}
       </tbody>
     </table>
   </div>
@@ -54,40 +63,36 @@
   }
 
   table {
-    @apply min-w-full relative;
+    @apply min-w-full relative border-collapse;
+    @apply bg-white;
 
     th, td {
       @apply border border-gray-300;
+      @apply whitespace-nowrap;
     }
 
     th {
-      @apply px-6 py-3 uppercase tracking-wider;
-      @apply text-left text-sm font-medium uppercase;
       @apply sticky top-0;
+      @apply text-sm font-medium uppercase tracking-wider text-left;
       @apply bg-blue-50;
-
-      &:first-child {
-        @apply left-0 z-10;
-      }
     }
 
-    tbody {
-      @apply bg-white;
+    .cell {
+      @apply px-6 py-3 whitespace-nowrap;
+    }
 
-      tr:nth-child(even) {
-        @apply bg-red-50;
-      }
+    tr:nth-child(even), tr:nth-child(even) {
+      @apply bg-red-50;
+    }
 
-      tr {
-        @apply hover:bg-yellow-50;
-      }
-      tr.selected {
-        @apply outline outline-1 outline-blue-600;
-      }
-
-      .cell {
-        @apply px-6 py-3 whitespace-nowrap;
-      }
+    tr.selected td {
+      @apply bg-cyan-200;
+    }
+    tr:hover, tr:hover td {
+      @apply bg-yellow-50;
+    }
+    tr.selected:hover, tr.selected:hover td {
+      @apply bg-blue-100;
     }
 
     th:first-child {
