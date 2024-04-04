@@ -3,6 +3,8 @@
 </script>
 
 <script>
+  import { departments_api } from '@/Api/v1/departments_api.js'
+
   $layout = 'default'
   $title = 'Departments'
 
@@ -10,13 +12,15 @@
   import { get } from 'svelte/store'
   import { departments } from '@/State'
   import Table from '@/Components/Table.svelte'
+  import { gotoUrl } from '@/Utils/index.js'
 
   onMount(async () => {
     await departments.reqListDepartments()
   })
 
   const actions_default = {
-    'Создать': () => {},
+    'Создать': () => {
+    },
     'Изменить': (state) => {
       const selected = get(state).selected
       state.editItem(selected)
@@ -28,6 +32,9 @@
         departments.reqDeleteDepartment(selected.id)
       }
       state.selectItem()
+    },
+    'Экспортировать': (state) => {
+      departments_api.export().then(url => gotoUrl(url))
     }
   }
 

@@ -64,7 +64,7 @@ function newFilesStore() {
     try {
       const raw_data = getAxiosData(response)
       if (raw_data) {
-        const id = raw_data?.id
+        const id = Number(raw_data?.id)
         update((items) => items.filter((it) => it.id !== id))
       }
     } catch (err) {

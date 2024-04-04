@@ -17,3 +17,11 @@ export const resetInput = (elem) => {
   elem.type = ''
   elem.type = t
 }
+
+export const gotoUrl = (url) => {
+  const link = document.createElement('a');
+  link.href = url;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

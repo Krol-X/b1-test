@@ -3,92 +3,37 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
+
   $layout = 'default'
   $title = 'User Infos'
 
   import { user_infos } from '@/State'
   import Table from '@/Components/Table.svelte'
+  import { get } from 'svelte/store'
+  import { user_infos_api } from '@/Api/v1/user_infos_api'
+  import { gotoUrl } from '@/Utils/index.js'
 
-  const test = [
-    {
-      id: 1,
-      department_id: '1',
-      last_name: '2',
-      name: '3',
-      second_name: '4',
-      work_position: '5',
-      mobile_phone: '6',
-      phone: '7',
-      login: '8',
-      password: '9'
-    },
-    {
-      id: 2,
-      department_id: 'x',
-      last_name: 'x',
-      name: '',
-      second_name: 'x',
-      work_position: '',
-      mobile_phone: 'x',
-      phone: '',
-      login: 'x',
-      password: ''
-    },
-    {
-      id: 3,
-      department_id: '1',
-      last_name: '2',
-      name: '3',
-      second_name: '4',
-      work_position: '5',
-      mobile_phone: '6',
-      phone: '7',
-      login: '8',
-      password: '9'
-    },
-    {
-      id: 4,
-      department_id: 'x',
-      last_name: 'x',
-      name: '',
-      second_name: 'x',
-      work_position: '',
-      mobile_phone: 'x',
-      phone: '',
-      login: 'x',
-      password: ''
-    },
-    {
-      id: 5,
-      department_id: '1',
-      last_name: '2',
-      name: '3',
-      second_name: '4',
-      work_position: '5',
-      mobile_phone: '6',
-      phone: '7',
-      login: '8',
-      password: '9'
-    },
-    {
-      id: 6,
-      department_id: 'x',
-      last_name: 'x',
-      name: '',
-      second_name: 'x',
-      work_position: '',
-      mobile_phone: 'x',
-      phone: '',
-      login: 'x',
-      password: ''
-    }
-  ]
+  onMount(async () => {
+    await user_infos.reqListUserInfos()
+  })
 
-  const actions = {
+  const actions_default = {
     'Создать': () => {},
     'Изменить': () => {},
-    'Удалить': () => {}
+    'Удалить': (state) => {
+      const selected = get(state).selected
+      if (selected) {
+        user_infos.reqDeleteUserInfo(selected.id)
+      }
+      state.selectItem()
+    },
+    'Экспортировать': (state) => {
+      user_infos_api.export().then(url => gotoUrl(url))
+    }
   }
+
+  var actions = actions_default
 </script>
 
-<Table data={test} {actions} />
+<Table data={$user_infos} {actions} />

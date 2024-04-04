@@ -5,5 +5,6 @@ export const departments_api = {
   list: api1Method('department', 'get'),
   get: api1Method('department', 'get', true),
   update: api1Method('department', 'put', true),
-  delete: api1Method('department', 'delete', true)
+  delete: api1Method('department', 'delete', true),
+  export: api1Method('export/departments', 'get', false, true)
 }
