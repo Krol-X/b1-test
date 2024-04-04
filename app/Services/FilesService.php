@@ -42,7 +42,7 @@ class FilesService {
 
   public static function deleteFile(File $record): void {
     $file_path = self::getFilePath($record);
-    if (Storage::exists($file_path)) {
+    if ($file_path) {
       Storage::delete($file_path);
     }
     $record->delete();

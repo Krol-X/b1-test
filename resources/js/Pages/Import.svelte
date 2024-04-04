@@ -30,7 +30,7 @@
       input_elem.click()
     },
     'Импортировать': () => {},
-    'Удалить': () => {
+    'Удалить': (state) => {
       const selected = get(state).selected
       if (selected) {
         files.reqDeleteFile(selected.id)
