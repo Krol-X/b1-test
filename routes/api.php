@@ -19,7 +19,5 @@ Route::prefix('v1')->group(function () {
   Route::name('department')->group(base_path('routes/api_v1/department.php'));
   Route::name('user')->group(base_path('routes/api_v1/users.php'));
   Route::name('files')->group(base_path('routes/api_v1/files.php'));
-
-  Route::get('export/departments', [DepartmentController::class, 'export']);
-  Route::get('export/users', [UserInfoController::class, 'export']);
+  Route::name('export')->group(base_path('routes/api_v1/export.php'));
 });

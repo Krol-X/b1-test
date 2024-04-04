@@ -19,8 +19,6 @@
   })
 
   const actions_default = {
-    'Создать': () => {},
-    'Изменить': () => {},
     'Удалить': (state) => {
       const selected = get(state).selected
       if (selected) {

@@ -3,12 +3,11 @@
 </script>
 
 <script>
-  import Button from '@/Components/Table/Button.svelte'
+  import { get } from 'svelte/store'
 
   $layout = 'default'
   $title = 'Импорт'
 
-  // import { departments } from '@/State'
   import Table from '@/Components/Table.svelte'
   import { onMount } from 'svelte'
   import { files } from '@/State/index.js'
@@ -22,8 +21,6 @@
   })
 
   async function uploadFile() {
-    // const formData = new FormData();
-    // formData.append('file', file);
     await files.reqUploadFile(selected_file[0])
     resetInput(input_elem)
   }
@@ -32,10 +29,13 @@
     'Загрузить': () => {
       input_elem.click()
     },
-    'Имортировать': () => {},
+    'Импортировать': () => {},
     'Удалить': () => {
-      // Удалить файл на сервере
-      // Удалить файл из списка
+      const selected = get(state).selected
+      if (selected) {
+        files.reqDeleteFile(selected.id)
+      }
+      state.selectItem()
     }
   }
 </script>

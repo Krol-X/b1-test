@@ -57,10 +57,10 @@ function newFilesStore() {
   //
 
   async function reqDeleteFile(id) {
-    await files_api.delete(id, null, resDeleteDeleteFile)
+    await files_api.delete(id, null, resDeleteFile)
   }
 
-  async function resDeleteDeleteFile(response) {
+  async function resDeleteFile(response) {
     try {
       const raw_data = getAxiosData(response)
       if (raw_data) {
@@ -77,7 +77,7 @@ function newFilesStore() {
     reqUploadFile,
     reqListFiles,
     getFileUrl,
-    resDeleteDeleteFile
+    reqDeleteFile
   }
 }
 

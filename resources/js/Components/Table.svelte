@@ -17,8 +17,6 @@
   {/each}
 </div>
 
-{JSON.stringify($state)}
-
 {#if data.length}
   <div class="table-container">
     <table>
