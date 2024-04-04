@@ -15,6 +15,7 @@ class UserInfo extends Model {
     'name',
     'second_name',
     'work_position',
+    'email',
     'mobile_phone',
     'phone',
     'login',

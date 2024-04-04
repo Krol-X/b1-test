@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Resources\UserInfoController;
 
-Route::prefix('user-info')->group(function () {
+Route::prefix('users')->group(function () {
   Route::post('/', [UserInfoController::class, 'create']);
   Route::get('/', [UserInfoController::class, 'list']);
   Route::get('/{id}', [UserInfoController::class, 'read']);

@@ -1,3 +1,4 @@
+import '../css/app.scss'
 import './bootstrap'
 import { createInertiaApp } from '@inertiajs/svelte'
 

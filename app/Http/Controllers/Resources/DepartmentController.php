@@ -8,6 +8,7 @@ use App\Services\DepartmentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DepartmentController extends ResourceController {
   const VALIDATION = [
@@ -95,5 +96,25 @@ class DepartmentController extends ResourceController {
         Response::HTTP_NOT_FOUND
       );
     }
+  }
+
+  // get /export/departments
+  public function export(Request $request): StreamedResponse {
+    $records = DepartmentService::listDepartments();
+    $file_name = 'departments.csv';
+    $headers = [
+      'Content-Type' => 'text/csv',
+      'Content-Disposition' => 'attachment; filename="' . $file_name . '"',
+    ];
+    $callback = function () use ($records) {
+      $prefix = 'OU';
+      $handle = fopen('php://output', 'w');
+      fputcsv($handle, ['XML_ID', 'PARENT_XML_ID', 'NAME_DEPARTMENT'], ';');
+      foreach ($records as $record) {
+        fputcsv($handle, [$prefix . $record->id, $record->parent_id ?? '', $record->name], ';');
+      }
+      fclose($handle);
+    };
+    return response()->stream($callback, 200, $headers);
   }
 }

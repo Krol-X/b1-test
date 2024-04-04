@@ -2,19 +2,13 @@
   import { getColumns } from '@/Utils'
   import Button from '@/Components/Table/Button.svelte'
   import { newTableStore } from '@/State/table'
-  import { onMount } from 'svelte'
+  import Cell from '@/Components/Table/Cell.svelte'
 
   export let data = []
   export let actions = {}
 
   const state = newTableStore()
   $: columns = getColumns(data)
-
-  onMount(() => {
-    if (data.length) {
-      state.selectItem(data[0])
-    }
-  })
 </script>
 
 <div class="table-actions">
@@ -22,6 +16,8 @@
     <Button text={name} action={(...arg) => actions[name](state, ...arg)} />
   {/each}
 </div>
+
+{JSON.stringify($state)}
 
 {#if data.length}
   <div class="table-container">
@@ -39,11 +35,13 @@
             class:selected={item?.id === $state.selected?.id}
         >
           {#each columns as column, i}
-            {#if i === 0}
-              <th>{item[column] ?? ''}</th>
-            {:else}
-              <td>{item[column] ?? ''}</td>
-            {/if}
+            <Cell is_header={i === 0}>
+              {#if item?.id === $state.edited?.id}
+                <input class="cell" bind:value={$state.edited[column]}>
+              {:else}
+                <div class="cell">{item[column] ?? ''}</div>
+              {/if}
+            </Cell>
           {/each}
         </tr>
       {/each}
@@ -93,7 +91,7 @@
         @apply outline outline-1 outline-blue-600;
       }
 
-      td {
+      .cell {
         @apply px-6 py-3 whitespace-nowrap;
       }
     }

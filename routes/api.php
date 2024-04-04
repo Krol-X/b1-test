@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Resources\DepartmentController;
+use App\Http\Controllers\Resources\UserInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +17,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
   Route::name('department')->group(base_path('routes/api_v1/department.php'));
-  Route::name('user_info')->group(base_path('routes/api_v1/user_info.php'));
+  Route::name('user')->group(base_path('routes/api_v1/users.php'));
   Route::name('files')->group(base_path('routes/api_v1/files.php'));
+
+  Route::get('export/departments', [DepartmentController::class, 'export']);
+  Route::get('export/users', [UserInfoController::class, 'export']);
 });

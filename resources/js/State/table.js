@@ -4,15 +4,21 @@ import { getAxiosData } from '@/Utils/api.js'
 
 export function newTableStore() {
   const { subscribe, set, update } = writable({
-    selected: null
+    selected: null,
+    edited: null
   })
 
   function selectItem(item) {
     update(old_state => ({...old_state, selected: item}))
   }
 
+  function editItem(item) {
+    update(old_state => ({...old_state, edited: {...item}}))
+  }
+
   return {
     subscribe,
-    selectItem
+    selectItem,
+    editItem
   }
 }
