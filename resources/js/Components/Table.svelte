@@ -34,11 +34,7 @@
         >
           {#each columns as column, i}
             <Cell is_header={i === 0}>
-              {#if item?.id === $state.edited?.id}
-                <input class="cell" bind:value={$state.edited[column]}>
-              {:else}
-                <div class="cell">{item[column] ?? ''}</div>
-              {/if}
+              <div class="cell">{item[column] ?? ''}</div>
             </Cell>
           {/each}
         </tr>

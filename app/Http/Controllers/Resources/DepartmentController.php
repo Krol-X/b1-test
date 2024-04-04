@@ -5,15 +5,24 @@ namespace App\Http\Controllers\Resources;
 use App\Abstract\Http\Controllers\ResourceController;
 use App\DTO\Resources\DepartmentData;
 use App\Services\DepartmentService;
+use App\Utils\ControllerUtils;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DepartmentController extends ResourceController {
+  const PREFIX = 'OU';
+
   const VALIDATION = [
     'name' => 'required|string',
     'parent_id' => 'nullable|integer',
+  ];
+
+  const FIELDS_MAP = [
+    'id' => 'XML_ID',
+    'parent_id' => 'PARENT_XML_ID',
+    'name' => 'NAME_DEPARTMENT'
   ];
 
   // post /department
@@ -22,11 +31,12 @@ class DepartmentController extends ResourceController {
 
     $info = new DepartmentData($validated);
     $record = DepartmentService::createDepartment($info);
+    $record_formatted = ControllerUtils::remap_fields($record, self::FIELDS_MAP);
 
     return response()->json(
       [
         'message' => 'Department created successfully',
-        'data' => $record
+        'data' => $record_formatted
       ],
       Response::HTTP_CREATED
     );
@@ -35,10 +45,13 @@ class DepartmentController extends ResourceController {
   // get /department
   function list(Request $request): JsonResponse {
     $records = DepartmentService::listDepartments();
+    $records_formatted = $records->map(function ($record) {
+      return ControllerUtils::remap_fields($record, self::FIELDS_MAP);
+    });
 
     return response()->json([
       'message' => 'Ok',
-      'data' => $records
+      'data' => $records_formatted
     ]);
   }
 
@@ -47,9 +60,10 @@ class DepartmentController extends ResourceController {
     $record = DepartmentService::getDepartment($id);
 
     if ($record) {
+      $record_formatted = ControllerUtils::remap_fields($record, self::FIELDS_MAP);
       return response()->json([
         'message' => 'Department found',
-        'data' => $record,
+        'data' => $record_formatted,
       ]);
     } else {
       return response()->json(
@@ -68,9 +82,10 @@ class DepartmentController extends ResourceController {
 
     if ($record) {
       $record_updated = DepartmentService::updateDepartment($record, $info);
+      $record_formatted = ControllerUtils::remap_fields($record_updated, self::FIELDS_MAP);
       return response()->json([
         'message' => 'Department updated',
-        'data' => $record
+        'data' => $record_formatted
       ]);
     } else {
       return response()->json(
@@ -107,11 +122,14 @@ class DepartmentController extends ResourceController {
       'Content-Disposition' => 'attachment; filename="' . $file_name . '"',
     ];
     $callback = function () use ($records) {
-      $prefix = 'OU';
       $handle = fopen('php://output', 'w');
-      fputcsv($handle, ['XML_ID', 'PARENT_XML_ID', 'NAME_DEPARTMENT'], ';');
+
+      fputcsv($handle, array_values(self::FIELDS_MAP), ';');
       foreach ($records as $record) {
-        fputcsv($handle, [$prefix . $record->id, $record->parent_id ?? '', $record->name], ';');
+        fputcsv($handle, [
+          ControllerUtils::convert_id($record->id, self::PREFIX),
+          $record->parent_id ?? '', $record->name
+        ], ';');
       }
       fclose($handle);
     };

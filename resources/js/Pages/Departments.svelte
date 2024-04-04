@@ -22,7 +22,7 @@
     'Удалить': (state) => {
       const selected = get(state).selected
       if (selected) {
-        departments.reqDeleteDepartment(selected.id)
+        departments.reqDeleteDepartment(selected['XML_ID'])
       }
       state.selectItem()
     },

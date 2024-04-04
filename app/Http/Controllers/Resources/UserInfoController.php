@@ -5,22 +5,40 @@ namespace App\Http\Controllers\Resources;
 use App\Abstract\Http\Controllers\ResourceController;
 use App\DTO\Resources\UserInfoData;
 use App\Services\UserInfoService;
+use App\Utils\ControllerUtils;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class UserInfoController extends ResourceController {
+  const PREFIX = 'CN';
+
   const VALIDATION = [
     'department_id' => 'nullable|integer',
     'last_name' => 'required|string',
     'name' => 'required|string',
     'second_name' => 'required|string',
     'work_position' => 'required|string',
+    'email' => 'required|string',
     'mobile_phone' => 'required|string',
     'phone' => 'required|string',
     'login' => 'required|string',
     'password' => 'required|string',
+  ];
+
+  const FIELDS_MAP = [
+    'id' => 'XML_ID',
+    'last_name' => 'LAST_NAME',
+    'name' => 'NAME',
+    'second_name' => 'SECOND_NAME',
+    'department_id' => 'DEPARTMENT',
+    'work_position' => 'WORK_POSITION',
+    'email' => 'EMAIL',
+    'mobile_phone' => 'MOBILE_PHONE',
+    'phone' => 'PHONE',
+    'login' => 'LOGIN',
+    'password' => 'PASSWORD',
   ];
 
   // post /user-info
@@ -29,11 +47,12 @@ class UserInfoController extends ResourceController {
 
     $info = new UserInfoData($validated);
     $record = UserInfoService::createUserInfo($info);
+    $record_formatted = ControllerUtils::remap_fields($record, self::FIELDS_MAP);
 
     return response()->json(
       [
         'message' => 'UserInfo created successfully',
-        'data' => $record
+        'data' => $record_formatted
       ],
       Response::HTTP_CREATED
     );
@@ -42,10 +61,13 @@ class UserInfoController extends ResourceController {
   // get /user-info
   function list(Request $request): JsonResponse {
     $records = UserInfoService::listUserInfos();
+    $records_formatted = $records->map(function ($record) {
+      return ControllerUtils::remap_fields($record, self::FIELDS_MAP);
+    });
 
     return response()->json([
       'message' => 'Ok',
-      'data' => $records
+      'data' => $records_formatted
     ]);
   }
 
@@ -54,9 +76,10 @@ class UserInfoController extends ResourceController {
     $record = UserInfoService::getUserInfo($id);
 
     if ($record) {
+      $record_formatted = ControllerUtils::remap_fields($record, self::FIELDS_MAP);
       return response()->json([
         'message' => 'UserInfo found',
-        'data' => $record,
+        'data' => $record_formatted,
       ]);
     } else {
       return response()->json(
@@ -75,9 +98,10 @@ class UserInfoController extends ResourceController {
 
     if ($record) {
       $record_updated = UserInfoService::updateUserInfo($record, $info);
+      $record_formatted = ControllerUtils::remap_fields($record_updated, self::FIELDS_MAP);
       return response()->json([
         'message' => 'UserInfo updated',
-        'data' => $record
+        'data' => $record_formatted
       ]);
     } else {
       return response()->json(
@@ -114,19 +138,17 @@ class UserInfoController extends ResourceController {
       'Content-Disposition' => 'attachment; filename="' . $file_name . '"',
     ];
     $callback = function () use ($records) {
-      $prefix = 'CN';
-      $prefix_department = 'OU';
       $handle = fopen('php://output', 'w');
-      fputcsv($handle, [
-        'XML_ID', 'LAST_NAME', 'NAME', 'SECOND_NAME',
-        'DEPARTMENT', 'WORK_POSITION', 'EMAIL',
-        'MOBILE_PHONE', 'PHONE', 'LOGIN', 'PASSWORD'
-      ], ';');
+
+      fputcsv($handle, array_values(self::FIELDS_MAP), ';');
       foreach ($records as $record) {
         fputcsv($handle, [
-          $prefix . $record->id, $record->last_name, $record->name, $record->second_name,
-          $prefix_department . $record->department_id, $record->work_position, $record->email,
-          $record->mobile_phone, $record->phone, $record->login, $record->password
+          ControllerUtils::convert_id($record->id, self::PREFIX),
+          $record->last_name, $record->name, $record->second_name,
+          ControllerUtils::convert_id($record->department_id, DepartmentController::PREFIX),
+          $record->work_position,
+          $record->email, $record->mobile_phone, $record->phone,
+          $record->login, $record->password
         ], ';');
       }
       fclose($handle);

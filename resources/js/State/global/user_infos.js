@@ -62,7 +62,7 @@ export function newUserInfosStore() {
     try {
       const raw_data = getAxiosData(response)
       const record = raw_data.data
-      update((items) => [...items.filter((it) => it.id !== record.id), record])
+      update((items) => [...items.filter((it) => it['XML_ID'] !== record['XML_ID']), record])
     } catch (err) {
       console.error(JSON.stringify(err))
     }
@@ -81,7 +81,7 @@ export function newUserInfosStore() {
       const raw_data = getAxiosData(response)
       if (raw_data) {
         const id = Number(raw_data?.id)
-        update((items) => items.filter((it) => it.id !== id))
+        update((items) => items.filter((it) => it['XML_ID'] !== id))
       }
     } catch (err) {
       console.error(JSON.stringify(err))
