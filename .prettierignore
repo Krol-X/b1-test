@@ -1,3 +1,6 @@
+# Ignore config
+config
+
 # Ignore Composer, Laravel and cache files
 storage
 vendor
