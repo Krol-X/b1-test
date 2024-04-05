@@ -8,7 +8,10 @@ class DepartmentData {
   private readonly array $data;
 
   public function __construct(array $data) {
-    $this->data = array_filter($data, fn($value, $key) => in_array($key, Department::fields) && $value !== '', ARRAY_FILTER_USE_BOTH);
+    $this->data = array_filter(
+      $data,
+      fn($value, $key) => in_array($key, Department::fields),
+      ARRAY_FILTER_USE_BOTH);
   }
 
   public function __get($name) {
@@ -21,13 +24,5 @@ class DepartmentData {
 
   public function toArray(): array {
     return $this->data;
-  }
-
-  public function toJson() {
-    return json_encode([
-      'id' => $this->data['id'],
-      'name' => $this->data['name'],
-      'parent_id' => $this->data['parent_id'],
-    ]);
   }
 }

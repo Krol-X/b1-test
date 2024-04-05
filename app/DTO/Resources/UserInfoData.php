@@ -9,7 +9,10 @@ class UserInfoData {
   private readonly array $data;
 
   public function __construct(array $data) {
-    $this->data = array_filter($data, fn($value, $key) => in_array($key, UserInfo::fields) && $value !== '');
+    $this->data = array_filter(
+      $data,
+      fn($value, $key) => in_array($key, UserInfo::fields),
+      ARRAY_FILTER_USE_BOTH);
   }
 
   public function __get($name) {
@@ -22,9 +25,5 @@ class UserInfoData {
 
   public function toArray(): array {
     return $this->data;
-  }
-
-  public function toJson() {
-    return json_encode([]);
   }
 }
