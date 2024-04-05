@@ -18,6 +18,7 @@
 
   async function uploadFile() {
     await files.reqUploadFile(selected_file[0])
+    await files.reqListFiles()
     resetInput(input_elem)
   }
 
@@ -25,10 +26,11 @@
     'Загрузить': () => {
       input_elem.click()
     },
-    'Удалить файл': (state) => {
+    'Удалить файл': async(state) => {
       const selected = get(state).selected
       if (selected) {
-        files.reqDeleteFile(selected.id)
+        await files.reqDeleteFile(selected.id)
+        await files.reqListFiles()
       }
       state.selectItem()
     },

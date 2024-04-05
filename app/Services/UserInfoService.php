@@ -52,6 +52,5 @@ class UserInfoService {
   public static function deleteAllUserInfos(): void {
     DB::table('user_infos')->delete();
     DB::statement('ALTER TABLE user_infos AUTO_INCREMENT = 1');
-
   }
 }

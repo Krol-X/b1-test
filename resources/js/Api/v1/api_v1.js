@@ -14,7 +14,7 @@ export const api1Method = (name, http_method = 'post', has_param = false, url_on
     if (data_body?.data) params.data = data_body.data
     if (data_body?.body) params.body = data_body.body
 
-    console.log(`API1: ${url} | ${params}`)
+    console.log(`${http_method} API1: ${url} | ${params}`)
 
     const response = await axios({
       method: http_method,

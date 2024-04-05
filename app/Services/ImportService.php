@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Actions\ImportAction;
 use App\DTO\Resources\DepartmentData;
 use App\DTO\Resources\UserInfoData;
 use App\Http\Controllers\Resources\DepartmentController;
 use App\Http\Controllers\Resources\UserInfoController;
 use App\Utils\ControllerUtils;
-use Illuminate\Support\Facades\Log;
 
 class ImportService {
   static function check_header_map(array $header, array $map) {
@@ -31,7 +31,7 @@ class ImportService {
     return null;
   }
 
-  static function import($file_record, $last_department_id): bool {
+  static function import($file_record, ImportAction $action): bool {
     $csv = FilesService::getCsv($file_record);
     if (!$csv) {
       return false;
@@ -42,45 +42,14 @@ class ImportService {
       DepartmentController::FIELDS_MAP,
       UserInfoController::FIELDS_MAP
     ];
-    Log::warning("$file_record->name");
 
     $records_map = self::check_header($header, $maps);
     switch ($records_map) {
       case DepartmentController::FIELDS_MAP:
-        foreach ($csv as $csv_record) {
-          if (count($csv_record) === 0 || !$csv_record[0])
-            continue;
-          Log::warning(implode(", ", $csv_record));
-          $fields = ControllerUtils::remap_fields($csv_record, $records_map, true);
-          $converted_parent_id = ControllerUtils::convertId(
-            $fields['parent_id'], DepartmentController::PREFIX, true
-          );
-          if ($converted_parent_id) {
-            $fields['parent_id'] = $last_department_id + $converted_parent_id;
-          } else {
-            $fields['parent_id'] = null;
-          }
-          $record_data = new DepartmentData($fields);
-          DepartmentService::createDepartment($record_data);
-        }
+        $action->addDepartmentsData($csv);
         return true;
       case UserInfoController::FIELDS_MAP:
-        foreach ($csv as $csv_record) {
-          if (count($csv_record) === 0 || !$csv_record[0])
-            continue;
-          Log::warning(implode(", ", $csv_record));
-          $fields = ControllerUtils::remap_fields($csv_record, $records_map, true);
-          $converted_department_id = ControllerUtils::convertId(
-            $fields['department_id'], DepartmentController::PREFIX, true
-          );
-          if ($converted_department_id) {
-            $fields['department_id'] = $last_department_id + $converted_department_id;
-          } else {
-            $fields['department_id'] = null;
-          }
-          $record_data = new UserInfoData($fields);
-          UserInfoService::createUserInfo($record_data);
-        }
+        $action->addUserInfosData($csv);
         return true;
     }
     return false;
