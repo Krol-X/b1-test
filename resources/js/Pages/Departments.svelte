@@ -14,7 +14,7 @@
   import { gotoUrl } from '@/Utils/index.js'
 
   const actions_default = {
-    'Удалить': (state) => {
+    'Удалить запись': (state) => {
       const selected = get(state).selected
       if (selected) {
         departments.reqDeleteDepartment(selected['XML_ID'])

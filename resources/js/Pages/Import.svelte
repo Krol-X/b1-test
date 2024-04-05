@@ -11,6 +11,7 @@
   import Table from '@/Components/Table.svelte'
   import { files } from '@/State/index.js'
   import { resetInput } from '@/Utils/index.js'
+  import { import_api } from '@/Api/v1/import_api.js'
 
   let input_elem
   let selected_file
@@ -24,13 +25,15 @@
     'Загрузить': () => {
       input_elem.click()
     },
-    'Импортировать': () => {},
-    'Удалить': (state) => {
+    'Удалить файл': (state) => {
       const selected = get(state).selected
       if (selected) {
         files.reqDeleteFile(selected.id)
       }
       state.selectItem()
+    },
+    'Импортировать': async() => {
+      await import_api.import()
     }
   }
 

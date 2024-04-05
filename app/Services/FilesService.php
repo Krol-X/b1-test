@@ -31,6 +31,19 @@ class FilesService {
     return $record;
   }
 
+  public static function getCsv($record): ?array {
+    $csv = null;
+    $file_path = self::getFilePath($record);
+    if ($file_path) {
+      $data = Storage::get($file_path);
+      $lines = explode("\n", $data);
+      $csv = array_map(function ($line) {
+        return str_getcsv($line, ';');
+      }, $lines);
+    }
+    return $csv;
+  }
+
   public static function getFilePath($record) {
     $saved_as = $record->saved_as;
     $file_path = "public/uploads/$saved_as";

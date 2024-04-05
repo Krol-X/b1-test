@@ -2,13 +2,14 @@
 
 namespace App\DTO\Resources;
 
+use App\Models\User;
 use App\Models\UserInfo;
 
 class UserInfoData {
   private readonly array $data;
 
   public function __construct(array $data) {
-    $this->data = array_intersect_key($data, UserInfo::fields);
+    $this->data = array_filter($data, fn($value, $key) => in_array($key, UserInfo::fields) && $value !== '');
   }
 
   public function __get($name) {

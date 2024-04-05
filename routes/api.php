@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Resources\DepartmentController;
+use App\Http\Controllers\Resources\ImportController;
 use App\Http\Controllers\Resources\UserInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,6 @@ Route::prefix('v1')->group(function () {
   Route::name('users')->group(base_path('routes/api_v1/users.php'));
   Route::name('files')->group(base_path('routes/api_v1/files.php'));
   Route::name('export')->group(base_path('routes/api_v1/export.php'));
+
+  Route::post('/import', [ImportController::class, 'import']);
 });

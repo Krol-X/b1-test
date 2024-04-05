@@ -12,6 +12,14 @@
   $: columns = getColumns(data)
   $: selected = $state?.selected
   $: selected_key = selected? selected[id_key]: null
+
+  function select(item) {
+    if ($state.selected === item) {
+      state.selectItem()
+    } else {
+      state.selectItem(item)
+    }
+  }
 </script>
 
 <div class="table-actions">
@@ -36,7 +44,7 @@
       </thead>
       <tbody>
       {#each data as item}
-        <tr on:click={() => state.selectItem(item)}
+        <tr on:click={() => select(item)}
             class:selected={item[id_key] === selected_key}
         >
           {#each columns as column, i}
