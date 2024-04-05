@@ -127,7 +127,7 @@ class DepartmentController extends ResourceController {
       fputcsv($handle, array_values(self::FIELDS_MAP), ';');
       foreach ($records as $record) {
         fputcsv($handle, [
-          ControllerUtils::convert_id($record->id, self::PREFIX),
+          ControllerUtils::convertId($record->id, self::PREFIX),
           $record->parent_id ?? '', $record->name
         ], ';');
       }

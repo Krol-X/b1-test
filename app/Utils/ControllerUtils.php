@@ -21,8 +21,8 @@ class ControllerUtils {
     return $result;
   }
 
-  static function convert_id($id, string $prefix, bool $reverse = false) {
-    $result = '';
+  static function convertId($id, string $prefix, bool $reverse = false) {
+    $result = null;
     if ($id) {
       $result = $reverse
         ? intval(substr($id, strlen($prefix)))

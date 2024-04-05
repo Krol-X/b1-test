@@ -143,9 +143,9 @@ class UserInfoController extends ResourceController {
       fputcsv($handle, array_values(self::FIELDS_MAP), ';');
       foreach ($records as $record) {
         fputcsv($handle, [
-          ControllerUtils::convert_id($record->id, self::PREFIX),
+          ControllerUtils::convertId($record->id, self::PREFIX),
           $record->last_name, $record->name, $record->second_name,
-          ControllerUtils::convert_id($record->department_id, DepartmentController::PREFIX),
+          ControllerUtils::convertId($record->department_id, DepartmentController::PREFIX),
           $record->work_position,
           $record->email, $record->mobile_phone, $record->phone,
           $record->login, $record->password

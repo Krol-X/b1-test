@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\Resources\DepartmentData;
 use App\Models\Department;
+use App\Utils\DbUtils;
 use Illuminate\Support\Collection;
 
 class DepartmentService {
@@ -18,6 +19,11 @@ class DepartmentService {
       $query = $filter($query);
     }
     return $query->get();
+  }
+
+  public static function getNextId(): int {
+    $next_id = DbUtils::getNextId('departments');
+    return $next_id;
   }
 
   public static function getDepartment(int $id): ?Department {

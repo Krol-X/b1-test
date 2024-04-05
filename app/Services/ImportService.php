@@ -6,7 +6,6 @@ use App\DTO\Resources\DepartmentData;
 use App\DTO\Resources\UserInfoData;
 use App\Http\Controllers\Resources\DepartmentController;
 use App\Http\Controllers\Resources\UserInfoController;
-use App\Models\UserInfo;
 use App\Utils\ControllerUtils;
 
 class ImportService {
@@ -46,15 +45,19 @@ class ImportService {
       [DepartmentService::class, 'createDepartment'],
       [UserInfoService::class, 'createUserInfo']
     ];
+    $last_department_id = DepartmentService::getNextId() - 1;
 
     $records_map = self::check_header($header, $maps);
     switch ($records_map) {
       case DepartmentController::FIELDS_MAP:
         foreach ($csv as $csv_record) {
           $fields = ControllerUtils::remap_fields($csv_record, $records_map, true);
-          $fields['parent_id'] = ControllerUtils::convert_id(
+          $converted_parent_id = ControllerUtils::convertId(
             $fields['parent_id'], DepartmentController::PREFIX, true
           );
+          if ($converted_parent_id) {
+            $fields['parent_id'] = $last_department_id + $converted_parent_id;
+          }
           $record_data = new DepartmentData($fields);
           DepartmentService::createDepartment($record_data);
         }
