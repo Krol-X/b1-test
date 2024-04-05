@@ -133,12 +133,14 @@ class DepartmentController extends ResourceController {
     $callback = function () use ($records) {
       $handle = fopen('php://output', 'w');
 
-      fputcsv($handle, array_values(self::FIELDS_MAP), ';');
+      fputs($handle, implode(';', array_values(self::FIELDS_MAP)) . "\r\n");
       foreach ($records as $record) {
-        fputcsv($handle, [
-          ControllerUtils::convertId($record->id, self::PREFIX),
-          $record->parent_id ?? '', $record->name
-        ], ';');
+        fputs($handle, implode(';', [
+            ControllerUtils::convertId($record->id, self::PREFIX),
+            ControllerUtils::convertId($record->parent_id, self::PREFIX),
+            $record->name
+          ]) . "\r\n"
+        );
       }
       fclose($handle);
     };
