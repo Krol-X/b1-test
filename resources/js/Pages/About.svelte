@@ -23,11 +23,19 @@
   3. если в проектах использовались библиотеки, не входящие в стандартный набор использованного вами ЯП, необходимо приложить и их;
 </pre>
 
+<h1>Используемые технологии</h1>
+
+<pre>
+  - Php, Laravel
+  - Inertia, Js, Svelte
+  - Sass, Tailwind
+</pre>
+
 <style lang="scss">
   h1 {
     @apply font-bold mb-4;
   }
   pre {
-    @apply font-sans;
+    @apply font-sans mb-8;
   }
 </style>
