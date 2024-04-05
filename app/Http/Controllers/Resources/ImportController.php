@@ -16,7 +16,7 @@ class ImportController extends BaseController {
     $last_department_id = DepartmentService::getNextId() - 1;
     $files->each(function ($file_record) use ($last_department_id) {
       if (ImportService::import($file_record, $last_department_id)) {
-        // FilesService::deleteFile($file_record);
+        FilesService::deleteFile($file_record);
       }
     });
     return response()->json([

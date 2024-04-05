@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Resources\UserInfoData;
 use App\Models\UserInfo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class UserInfoService {
   public static function createUserInfo(UserInfoData $info): UserInfo {
@@ -46,5 +47,11 @@ class UserInfoService {
       return $record;
     }
     return null;
+  }
+
+  public static function deleteAllUserInfos(): void {
+    DB::table('user_infos')->delete();
+    DB::statement('ALTER TABLE user_infos AUTO_INCREMENT = 1');
+
   }
 }

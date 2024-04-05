@@ -11,6 +11,7 @@
 
 <style lang="scss">
   a {
+    @apply select-none;
     @apply px-3 sm:px-4 py-2 flex items-center hover:bg-slate-200;
 
     font-size: clamp(0.75rem, 2.5vw, 1rem);

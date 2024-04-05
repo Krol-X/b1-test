@@ -25,7 +25,7 @@ class DepartmentController extends ResourceController {
     'name' => 'NAME_DEPARTMENT'
   ];
 
-  // post /department
+  // post /departments
   function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -42,7 +42,7 @@ class DepartmentController extends ResourceController {
     );
   }
 
-  // get /department
+  // get /departments
   function list(Request $request): JsonResponse {
     $records = DepartmentService::listDepartments();
     $records_formatted = $records->map(function ($record) {
@@ -55,7 +55,7 @@ class DepartmentController extends ResourceController {
     ]);
   }
 
-  // get /department/{id}
+  // get /departments/{id}
   function read(Request $request, $id): JsonResponse {
     $record = DepartmentService::getDepartment($id);
 
@@ -73,7 +73,7 @@ class DepartmentController extends ResourceController {
     }
   }
 
-  // put /department/{id}
+  // put /departments/{id}
   function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -95,7 +95,7 @@ class DepartmentController extends ResourceController {
     }
   }
 
-  // delete /department/{id}
+  // delete /departments/{id}
   function delete(Request $request, $id): JsonResponse {
     $record = DepartmentService::getDepartment($id);
 
@@ -111,6 +111,15 @@ class DepartmentController extends ResourceController {
         Response::HTTP_NOT_FOUND
       );
     }
+  }
+
+  // delete /departments
+  function delete_all(Request $request): JsonResponse {
+    DepartmentService::deleteAllDepartments();
+
+    return response()->json([
+      'message' => 'Ok'
+    ]);
   }
 
   // get /export/departments

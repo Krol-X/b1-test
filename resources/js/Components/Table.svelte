@@ -86,7 +86,7 @@
     }
 
     .cell {
-      @apply px-6 py-3 whitespace-nowrap;
+      @apply px-5 py-2 whitespace-nowrap;
     }
 
     tr:nth-child(even), tr:nth-child(even) {

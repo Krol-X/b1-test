@@ -34,6 +34,7 @@
     },
     'Импортировать': async() => {
       await import_api.import()
+      await files.reqListFiles()
     }
   }
 

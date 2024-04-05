@@ -4,7 +4,7 @@
 
 <script>
   $layout = 'default'
-  $title = 'User Infos'
+  $title = 'Данные пользователей'
 
   import { user_infos } from '@/State'
   import Table from '@/Components/Table.svelte'
@@ -18,6 +18,10 @@
       if (selected) {
         user_infos.reqDeleteUserInfo(selected['XML_ID'])
       }
+      state.selectItem()
+    },
+    'Удалить все записи': (state) => {
+      user_infos.reqDeleteAllUserInfos()
       state.selectItem()
     },
     'Экспортировать': (state) => {

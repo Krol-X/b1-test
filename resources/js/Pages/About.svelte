@@ -4,17 +4,12 @@
 
 <script>
   $layout = null
-  $title = 'Home'
-
-  let user = 'User'
+  $title = 'О проекте'
 </script>
 
 <div>
-  <h1 class="some">Hello {user}!</h1>
+  Текст
 </div>
 
 <style lang="scss">
-  .some {
-    @apply font-bold;
-  }
 </style>

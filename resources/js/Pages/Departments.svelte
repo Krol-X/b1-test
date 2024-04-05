@@ -6,7 +6,7 @@
   import { departments_api } from '@/Api/v1/departments_api.js'
 
   $layout = 'default'
-  $title = 'Departments'
+  $title = 'Данные отделов'
 
   import { get } from 'svelte/store'
   import { departments } from '@/State'
@@ -19,6 +19,10 @@
       if (selected) {
         departments.reqDeleteDepartment(selected['XML_ID'])
       }
+      state.selectItem()
+    },
+    'Удалить все записи': (state) => {
+      departments.reqDeleteAllDepartments()
       state.selectItem()
     },
     'Экспортировать': (state) => {

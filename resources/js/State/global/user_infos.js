@@ -88,13 +88,33 @@ export function newUserInfosStore() {
     }
   }
 
+  //
+  // Delete all UserInfos
+  //
+
+  async function reqDeleteAllUserInfos() {
+    await user_infos_api.deleteAll(null, resDeleteAllUserInfos)
+  }
+
+  async function resDeleteAllUserInfos(response) {
+    try {
+      const raw_data = getAxiosData(response)
+      if (raw_data) {
+        await reqListUserInfos();
+      }
+    } catch (err) {
+      console.error(JSON.stringify(err))
+    }
+  }
+
   return {
     subscribe,
     reqCreateUserInfo,
     reqListUserInfos,
     getUserInfo,
     reqUpdateUserInfo,
-    reqDeleteUserInfo
+    reqDeleteUserInfo,
+    reqDeleteAllUserInfos
   }
 }
 

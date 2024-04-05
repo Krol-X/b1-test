@@ -41,7 +41,7 @@ class UserInfoController extends ResourceController {
     'password' => 'PASSWORD',
   ];
 
-  // post /user-info
+  // post /users
   function create(Request $request): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -58,7 +58,7 @@ class UserInfoController extends ResourceController {
     );
   }
 
-  // get /user-info
+  // get /users
   function list(Request $request): JsonResponse {
     $records = UserInfoService::listUserInfos();
     $records_formatted = $records->map(function ($record) {
@@ -71,7 +71,7 @@ class UserInfoController extends ResourceController {
     ]);
   }
 
-  // get /user-info/{id}
+  // get /users/{id}
   function read(Request $request, $id): JsonResponse {
     $record = UserInfoService::getUserInfo($id);
 
@@ -89,7 +89,7 @@ class UserInfoController extends ResourceController {
     }
   }
 
-  // put /user-info/{id}
+  // put /users/{id}
   function update(Request $request, $id): JsonResponse {
     $validated = $request->validate(self::VALIDATION);
 
@@ -111,7 +111,7 @@ class UserInfoController extends ResourceController {
     }
   }
 
-  // delete /user-info/{id}
+  // delete /users/{id}
   function delete(Request $request, $id): JsonResponse {
     $record = UserInfoService::getUserInfo($id);
 
@@ -127,6 +127,15 @@ class UserInfoController extends ResourceController {
         Response::HTTP_NOT_FOUND
       );
     }
+  }
+
+  // delete /users
+  function delete_all(Request $request): JsonResponse {
+    UserInfoService::deleteAllUserInfos();
+
+    return response()->json([
+      'message' => 'Ok'
+    ]);
   }
 
   // get /export/users

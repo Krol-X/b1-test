@@ -88,13 +88,33 @@ export function newDepartmentsStore() {
     }
   }
 
+  //
+  // Delete all Departments
+  //
+
+  async function reqDeleteAllDepartments() {
+    await departments_api.deleteAll(null, resDeleteAllDepartments)
+  }
+
+  async function resDeleteAllDepartments(response) {
+    try {
+      const raw_data = getAxiosData(response)
+      if (raw_data) {
+        await reqListDepartments();
+      }
+    } catch (err) {
+      console.error(JSON.stringify(err))
+    }
+  }
+
   return {
     subscribe,
     reqCreateDepartment,
     reqListDepartments,
     getDepartment,
     reqUpdateDepartment,
-    reqDeleteDepartment
+    reqDeleteDepartment,
+    reqDeleteAllDepartments
   }
 }
 

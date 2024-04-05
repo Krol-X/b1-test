@@ -6,6 +6,7 @@ use App\DTO\Resources\DepartmentData;
 use App\Models\Department;
 use App\Utils\DbUtils;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DepartmentService {
   public static function createDepartment(DepartmentData $info): Department {
@@ -52,5 +53,12 @@ class DepartmentService {
       return $record;
     }
     return null;
+  }
+
+  public static function deleteAllDepartments() {
+    DB::table('departments')->update(['parent_id' => null]);
+    DB::table('user_infos')->update(['department_id' => null]);
+    DB::table('departments')->delete();
+    DB::statement('ALTER TABLE departments AUTO_INCREMENT = 1');
   }
 }
