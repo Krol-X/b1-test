@@ -12,6 +12,6 @@
 
 <style lang="scss">
   .menu {
-    @apply flex w-screen bg-gray-50;
+    @apply flex w-full bg-gray-50;
   }
 </style>

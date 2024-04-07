@@ -2,15 +2,21 @@
   import Menu from './Components/Menu.svelte'
 </script>
 
-<Menu />
 <div class="layout">
-  <slot />
+  <header>
+    <Menu />
+  </header>
+
+  <main>
+    <slot />
+  </main>
 </div>
 
 <style>
   .layout {
-    @apply w-full overflow-auto p-4;
-    max-width: 100vw;
-    max-height: 100vh;
+    @apply flex flex-col w-screen h-screen;
+  }
+  main {
+    @apply flex-1 overflow-auto p-4;
   }
 </style>

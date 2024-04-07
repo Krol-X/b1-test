@@ -22,56 +22,62 @@
   }
 </script>
 
-<div class="table-actions">
-  {#each Object.keys(actions) as name}
-    <Button text={name} action={(...arg) => actions[name](state, ...arg)} />
-  {/each}
-</div>
+<div class="table-area">
+  <div class="table-actions">
+    {#each Object.keys(actions) as name}
+      <Button text={name} action={(...arg) => actions[name](state, ...arg)} />
+    {/each}
+  </div>
 
-{#if data.length}
-  <div class="table-container">
-    <table>
-      <thead>
-      <tr>
-        {#each columns as column}
-          {#if !hidden_fields.includes(column)}
-            <th>
-              <div class="cell">{column}</div>
-            </th>
-          {/if}
-        {/each}
-      </tr>
-      </thead>
-      <tbody>
-      {#each data as item}
-        <tr on:click={() => select(item)}
-            class:selected={item[id_key] === selected_key}
-        >
-          {#each columns as column, i}
+  {#if data.length}
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          {#each columns as column}
             {#if !hidden_fields.includes(column)}
-              <td>
-                <div class="cell">{item[column] ?? ''}</div>
-              </td>
+              <th>
+                <div class="cell">{column}</div>
+              </th>
             {/if}
           {/each}
         </tr>
-    {/each}
-      </tbody>
-    </table>
-  </div>
-{/if}
+        </thead>
+        <tbody>
+        {#each data as item}
+          <tr on:click={() => select(item)}
+              class:selected={item[id_key] === selected_key}
+          >
+            {#each columns as column, i}
+              {#if !hidden_fields.includes(column)}
+                <td>
+                  <div class="cell">{item[column] ?? ''}</div>
+                </td>
+              {/if}
+            {/each}
+          </tr>
+      {/each}
+        </tbody>
+      </table>
+    </div>
+  {/if}
+</div>
 
 <style lang="scss">
   .table-actions {
     @apply mb-4 flex gap-4;
   }
 
+  .table-area {
+    @apply flex flex-col w-full h-full;
+  }
+
   .table-container {
-    @apply min-w-full max-w-full overflow-auto;
+    @apply flex-1 w-full overflow-auto;
   }
 
   table {
-    @apply min-w-full relative border-collapse;
+    @apply w-full relative border-collapse;
     @apply bg-white;
 
     th, td {
